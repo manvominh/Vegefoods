@@ -17,7 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.Application", "Ve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.Domain", "Vegefoods.Domain\Vegefoods.Domain.csproj", "{3DCA78A6-6E72-478B-A1D7-6D8959CA1A1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.Infrastructure", "Vegefoods.Infrastructure\Vegefoods.Infrastructure.csproj", "{156B3CAD-A52F-42B4-9856-C336D48C34F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.Persistence", "Vegefoods.Infrastructure\Vegefoods.Persistence.csproj", "{156B3CAD-A52F-42B4-9856-C336D48C34F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.API", "Vegefoods.API\Vegefoods.API.csproj", "{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{156B3CAD-A52F-42B4-9856-C336D48C34F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{156B3CAD-A52F-42B4-9856-C336D48C34F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{156B3CAD-A52F-42B4-9856-C336D48C34F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +51,7 @@ Global
 		{B5D7E6B2-DEA7-406F-96CA-7A56911FA1CC} = {A4F163A8-10C6-44AF-8EE7-E15C4229D6F6}
 		{3DCA78A6-6E72-478B-A1D7-6D8959CA1A1A} = {A4F163A8-10C6-44AF-8EE7-E15C4229D6F6}
 		{156B3CAD-A52F-42B4-9856-C336D48C34F0} = {2960CE46-A674-41DF-BD99-83E9B2900ACE}
+		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6} = {D8BFE997-F8B4-486A-852E-1BC157251EF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0761066F-1276-4588-877E-605924F00C55}

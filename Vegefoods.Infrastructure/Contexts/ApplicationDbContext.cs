@@ -1,9 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Reflection;
 using Vegefoods.Domain.Entities;
 
-namespace Vegefoods.Infrastructure.Contexts
+namespace Vegefoods.Persistence.Contexts
 {
 	public class ApplicationDbContext : DbContext
 	{
@@ -11,7 +13,19 @@ namespace Vegefoods.Infrastructure.Contexts
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
 		{
-
+			try
+			{
+				var databaseCreator = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
+				if (databaseCreator != null)
+				{
+					if (!databaseCreator.CanConnect()) databaseCreator.Create();
+					if (!databaseCreator.HasTables()) databaseCreator.CreateTables();
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
 		}
 
 		public DbSet<Product> Products { get; set; }
