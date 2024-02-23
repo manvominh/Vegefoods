@@ -11,15 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{32250D6D-3746-473B-A4BE-B9BA0AC6FA26}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "react", "react", "{24647C2A-84B6-4122-AF08-2FC930704056}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vegefoods.Application", "Vegefoods.Application\Vegefoods.Application.csproj", "{B5D7E6B2-DEA7-406F-96CA-7A56911FA1CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.Application", "Vegefoods.Application\Vegefoods.Application.csproj", "{B5D7E6B2-DEA7-406F-96CA-7A56911FA1CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vegefoods.Domain", "Vegefoods.Domain\Vegefoods.Domain.csproj", "{3DCA78A6-6E72-478B-A1D7-6D8959CA1A1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.Domain", "Vegefoods.Domain\Vegefoods.Domain.csproj", "{3DCA78A6-6E72-478B-A1D7-6D8959CA1A1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vegefoods.Persistence", "Vegefoods.Infrastructure\Vegefoods.Persistence.csproj", "{156B3CAD-A52F-42B4-9856-C336D48C34F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.Persistence", "Vegefoods.Infrastructure\Vegefoods.Persistence.csproj", "{156B3CAD-A52F-42B4-9856-C336D48C34F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vegefoods.API", "Vegefoods.API\Vegefoods.API.csproj", "{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vegefoods.API", "Vegefoods.API\Vegefoods.API.csproj", "{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vegefoods.API.Test", "Vegefoods.API.Test\Vegefoods.API.Test.csproj", "{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +43,10 @@ Global
 		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +56,7 @@ Global
 		{3DCA78A6-6E72-478B-A1D7-6D8959CA1A1A} = {A4F163A8-10C6-44AF-8EE7-E15C4229D6F6}
 		{156B3CAD-A52F-42B4-9856-C336D48C34F0} = {2960CE46-A674-41DF-BD99-83E9B2900ACE}
 		{ADF05132-3D4E-4893-8DAB-9ADB96CCECE6} = {D8BFE997-F8B4-486A-852E-1BC157251EF5}
+		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85} = {32250D6D-3746-473B-A4BE-B9BA0AC6FA26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0761066F-1276-4588-877E-605924F00C55}
