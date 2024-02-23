@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
 using System.Threading;
+using Vegefoods.Application.Common.Exceptions;
 using Vegefoods.Application.Dtos;
+using Vegefoods.Application.Features.UserFeatures.Command.RegisterUser;
+using Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmailAndPassword;
 using Vegefoods.Application.Interfaces;
 using Vegefoods.Domain.Entities;
 
@@ -24,9 +27,19 @@ namespace Vegefoods.API.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("register")]
-		public async Task<IActionResult> Register([FromBody] UserDto userDto, CancellationToken cancellationToken)
+		public async Task<ActionResult> Register([FromBody] UserRequestDto registerUser, CancellationToken cancellationToken)
 		{
-			var response = await _mediator.Send(userDto, cancellationToken);
+			var response = await _mediator.Send(new RegisterUserQuery(registerUser), cancellationToken);
+			return Ok(response);
+		}
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("login")]
+		public async Task<ActionResult> Login([FromBody] UserRequestDto loginUser, CancellationToken cancellationToken)
+		{
+			var response = await _mediator.Send(new GetUserByEmailAndPasswordQuery(loginUser), cancellationToken);
+			if (string.IsNullOrEmpty(response))
+				throw new BadRequestException("User not found.");
 			return Ok(response);
 		}
 	}

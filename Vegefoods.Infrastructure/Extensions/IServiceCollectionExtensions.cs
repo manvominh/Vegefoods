@@ -38,8 +38,7 @@ namespace Vegefoods.Persistence.Extensions
 				.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
 				.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
 			//.AddTransient<IProductRepository, ProductRepository>()
-			//.AddTransient<IProductCategoryRepository, ProductCategoryRepository>()
-			//.AddTransient<IShoppingCartRepository, ShoppingCartRepository>()
+			.AddTransient<IJwtAuthenticationManagerService, JwtAuthenticationManagerService>()
 			;
 		}
 	}

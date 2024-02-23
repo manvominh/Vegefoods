@@ -13,22 +13,19 @@ namespace Vegefoods.Persistence.Repositories
 		public const string JWT_SECURITY_KEY = "yPkCqn4kSWLtaJwXvN2jGzpQRyTZ3gdXkt7FeBJP";
 		public const int JWT_TOKEN_VALIDITY_MINS = 20;
 
-		public Task<Tokens> GenerateJwtToken(UserDto user)
+		public Task<string> GenerateJwtToken(string email)
 		{
 			///* Validating the User Credentials */
-			if (user == null)
-				return Task.FromResult<Tokens>(null);
+			if (email == null)
+				return Task.FromResult<string>(string.Empty);
 			/* Generating JWT Token */
 			var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(JWT_TOKEN_VALIDITY_MINS);
 			var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURITY_KEY);
 			var expiryTimeStamp = new Claim(ClaimTypes.Expiration, DateTime.UtcNow.AddMinutes(JWT_TOKEN_VALIDITY_MINS).ToString());
 
-			var claimEmailAddress = new Claim(ClaimTypes.Email, user.Email);
-			var claimNameIdentifier = new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.Id));
-			var claimFirstName = new Claim("FirstName", user.FirstName);
-			var claimLastName = new Claim("LastName", user.LastName);
+			var claimEmailAddress = new Claim(ClaimTypes.Email, email);
 
-			var claimsIdentity = new ClaimsIdentity(new[] { claimEmailAddress, claimNameIdentifier, claimFirstName, claimLastName, expiryTimeStamp }, "jwtAuth");
+			var claimsIdentity = new ClaimsIdentity(new[] { claimEmailAddress, expiryTimeStamp }, "jwtAuth");
 			var signingCredentials = new SigningCredentials(
 				new SymmetricSecurityKey(tokenKey),
 				SecurityAlgorithms.HmacSha256Signature);
@@ -42,18 +39,9 @@ namespace Vegefoods.Persistence.Repositories
 			var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
 			var securityToken = jwtSecurityTokenHandler.CreateToken(securityTokenDescriptor);
 			var token = jwtSecurityTokenHandler.WriteToken(securityToken);
-			var refreshToken = GenerateRefreshToken();
-			return Task.FromResult(new Tokens { Access_Token = token, Refresh_Token = refreshToken });
+			return Task.FromResult(token);
 		}
-		public string GenerateRefreshToken()
-		{
-			var randomNumber = new byte[32];
-			using (var rng = RandomNumberGenerator.Create())
-			{
-				rng.GetBytes(randomNumber);
-				return Convert.ToBase64String(randomNumber);
-			}
-		}
+		
 		public ClaimsPrincipal GetPrincipalFromToken(string token)
 		{
 			try
