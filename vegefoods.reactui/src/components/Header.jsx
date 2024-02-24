@@ -30,14 +30,14 @@ const Header = () => {
                         <div className="row d-flex">
                             <div className="col-md pr-4 d-flex topper align-items-center">
                                 <div className="icon mr-2 d-flex justify-content-center align-items-center"><span className="icon-phone2"></span></div>
-                                <span className="text">Author: Vo Minh Man</span>
+                                <span className="text">Contact to <a className="text" href="mailto:vominhman@gmail.com">vominhman@gmail.com</a></span>
                             </div>
                             <div className="col-md pr-4 d-flex topper align-items-center">
                                 <div className="icon mr-2 d-flex justify-content-center align-items-center"><span className="icon-paper-plane"></span></div>
-                                <span className="text">Welcome to our vegefoods react web.</span>
+                                <span className="text">Welcome to our vegefoods.</span>
                             </div>
                             <div className="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
-                                <span className="text">3-5 Business days delivery &amp; Free Returns</span>
+                                <span className="text">Demo Web application using ReactJS by Man Vo</span>
                             </div>
                         </div>
                     </div>

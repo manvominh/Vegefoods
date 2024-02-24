@@ -59,27 +59,18 @@ const Register = () => {
             <div className="offset-lg-3 col-lg-6">
                 <form className="container" onSubmit={handlesubmit}>
                     <div className="card">
-                        <div className="card-header">
-                            <h1>User Register</h1>
+                        <div className="card-header text-left">
+                            <h1>Register</h1>
                         </div>
                         <div className="card-body">
-
-                            <div className="row">
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label>Email <span className="errmsg">*</span></label>
-                                        <input value={email} onChange={e => emailchange(e.target.value)} className="form-control"></input>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label>Password <span className="errmsg">*</span></label>
-                                        <input value={password} onChange={e => passwordchange(e.target.value)} type="password" className="form-control"></input>
-                                    </div>
-                                </div>                       
-
+                            <div className="form-group text-left ">
+                                <label>Email <span className="errmsg">*</span></label>
+                                <input value={email} onChange={e => emailchange(e.target.value)} className="form-control"></input>
+                            </div>                        
+                            <div className="form-group text-left ">
+                                <label>Password <span className="errmsg">*</span></label>
+                                <input value={password} onChange={e => passwordchange(e.target.value)} type="password" className="form-control"></input>
                             </div>
-
                         </div>
                         <div className="card-footer">
                             <button type="submit" className="btn btn-primary">Register</button>&nbsp;&nbsp; 

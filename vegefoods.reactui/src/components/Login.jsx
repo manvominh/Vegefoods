@@ -66,15 +66,15 @@ const Login = () => {
             <div className="offset-lg-3 col-lg-6" style={{ marginTop: '100px' }}>
                 <form onSubmit={ProceedLogin} className="container">
                     <div className="card">
-                        <div className="card-header">
-                            <h2>User Login</h2>
+                        <div className="card-header text-left ">
+                            <h2>Login</h2>
                         </div>
                         <div className="card-body">
-                            <div className="form-group">
+                            <div className="form-group text-left">
                                 <label>Email <span className="errmsg">*</span></label>
                                 <input value={email} onChange={e => emailupdate(e.target.value)} className="form-control"></input>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group text-left ">
                                 <label>Password <span className="errmsg">*</span></label>
                                 <input type="password" value={password} onChange={e => passwordupdate(e.target.value)} className="form-control"></input>
                             </div>
