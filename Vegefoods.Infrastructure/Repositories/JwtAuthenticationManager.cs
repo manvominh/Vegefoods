@@ -13,11 +13,11 @@ namespace Vegefoods.Persistence.Repositories
 		public const string JWT_SECURITY_KEY = "yPkCqn4kSWLtaJwXvN2jGzpQRyTZ3gdXkt7FeBJP";
 		public const int JWT_TOKEN_VALIDITY_MINS = 20;
 
-		public Task<string> GenerateJwtToken(string email)
+		public Task<Tokens> GenerateJwtToken(string email)
 		{
 			///* Validating the User Credentials */
 			if (email == null)
-				return Task.FromResult<string>(string.Empty);
+				return Task.FromResult(new Tokens { Token = null, IsSuccess = false });
 			/* Generating JWT Token */
 			var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(JWT_TOKEN_VALIDITY_MINS);
 			var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURITY_KEY);
@@ -39,7 +39,7 @@ namespace Vegefoods.Persistence.Repositories
 			var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
 			var securityToken = jwtSecurityTokenHandler.CreateToken(securityTokenDescriptor);
 			var token = jwtSecurityTokenHandler.WriteToken(securityToken);
-			return Task.FromResult(token);
+			return Task.FromResult(new Tokens { Token = token, IsSuccess = true });
 		}
 		
 		public ClaimsPrincipal GetPrincipalFromToken(string token)
