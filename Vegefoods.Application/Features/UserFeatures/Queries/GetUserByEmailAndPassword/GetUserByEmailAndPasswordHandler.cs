@@ -9,8 +9,8 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmailAndPassword
 {
-	public record GetUserByEmailAndPasswordQuery(UserRequestDto LoginUser) : IRequest<string>;
-	public class GetUserByEmailAndPasswordHandler : IRequestHandler<GetUserByEmailAndPasswordQuery, string>
+	public record GetUserByEmailAndPasswordQuery(UserRequestDto LoginUser) : IRequest<Tokens>;
+	public class GetUserByEmailAndPasswordHandler : IRequestHandler<GetUserByEmailAndPasswordQuery, Tokens>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -23,11 +23,12 @@ namespace Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmailAndP
 			_jwtAuthenticationManagerService = jwtAuthenticationManagerService;
 		}
 
-		public async Task<string> Handle(GetUserByEmailAndPasswordQuery query, CancellationToken cancellationToken)
+		public async Task<Tokens> Handle(GetUserByEmailAndPasswordQuery query, CancellationToken cancellationToken)
 		{
 			var user = await _unitOfWork.Repository<User>().Entities.FirstOrDefaultAsync(x => x.Email == query.LoginUser.Email && x.Password == HashHelper.HashPassword(query.LoginUser.Password));
 
-			return user == null ? string.Empty : await _jwtAuthenticationManagerService.GenerateJwtToken(user.Email);
+			return user == null ? await Task.FromResult(new Tokens { Token = null, IsSuccess = false }) 
+				: await _jwtAuthenticationManagerService.GenerateJwtToken(user.Email);
 		}
 	}
 }

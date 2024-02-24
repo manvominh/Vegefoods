@@ -5,7 +5,7 @@ namespace Vegefoods.Application.Interfaces
 {
 	public interface IJwtAuthenticationManagerService
 	{
-		Task<string> GenerateJwtToken(string email);
+		Task<Tokens> GenerateJwtToken(string email);
 		ClaimsPrincipal GetPrincipalFromToken(string token);
 	}
 }

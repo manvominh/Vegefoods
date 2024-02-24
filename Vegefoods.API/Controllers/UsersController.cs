@@ -38,7 +38,7 @@ namespace Vegefoods.API.Controllers
 		public async Task<ActionResult> Login([FromBody] UserRequestDto loginUser, CancellationToken cancellationToken)
 		{
 			var response = await _mediator.Send(new GetUserByEmailAndPasswordQuery(loginUser), cancellationToken);
-			if (string.IsNullOrEmpty(response))
+			if (!response.IsSuccess)
 				throw new BadRequestException("User not found.");
 			return Ok(response);
 		}
