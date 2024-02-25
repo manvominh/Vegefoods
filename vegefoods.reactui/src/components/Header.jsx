@@ -1,25 +1,61 @@
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 
 const Header = () => {
-    /* const [displayusername, displayusernameupdate] = useState('');    
-    const { cartItems, getTotalCartAmount, checkout } = useContext(ShopContext);
+    const [welcome, setWelcome] = useState('');    
+    /* const { cartItems, getTotalCartAmount, checkout } = useContext(ShopContext);
+     */
     const navigate = useNavigate();
-    const location = useLocation(); */
+    const location = useLocation();
+
     const logout = () => {
-        sessionStorage.clear();
+        localStorage.setItem("email_vegefoods", "");
+        //sessionStorage.clear();
     }
     
     let menu;
-    let username = sessionStorage.getItem('username');
-    menu = (
-        <>
-        <li className="nav-item"><Link to="/login" className="nav-link">Login</Link></li>                        
-        <li className="nav-item"><Link to="/register" className="nav-link">Register</Link></li>
-        </>
-    ) 
-    //console.log(username);
+    let email = localStorage.getItem('email_vegefoods');
     
+    //console.log(email);
+    if (email === '' || email === null) {        
+        menu = (
+           <>
+           <li className="nav-item"><Link to="/login" className="nav-link">Login</Link></li>                        
+           <li className="nav-item"><Link to="/register" className="nav-link">Register</Link></li>
+           </>
+       ) 
+   }
+   else {
+       menu = (
+           <>
+           <li className="nav-item"><Link to="/profile" className="nav-link">Profile</Link></li>  
+           <li className="nav-item"><Link to="/login" className="nav-link" onClick={logout}>Logout</Link></li>                                    
+           </>
+       ) 
+   }
+
+   useEffect(() => {
+
+        if (email === '' || email === null) {
+            if (location.pathname === '/login' || location.pathname === '/register') {            
+                setWelcome('to our vegefoods website');    
+            }
+            if(location.pathname === '/shop' || location.pathname === '/cart'
+            || location.pathname === '/contact' || location.pathname === '/about'
+            || location.pathname === '/profile')
+            {
+                navigate('/login');
+            }                                 
+        }
+        else {
+            setWelcome(email);        
+            if(location.pathname === '/register'){
+                navigate('/');
+            }         
+        }
+        
+    }, [])
 
     return (        
         <>
@@ -34,7 +70,7 @@ const Header = () => {
                             </div>
                             <div className="col-md pr-4 d-flex topper align-items-center">
                                 <div className="icon mr-2 d-flex justify-content-center align-items-center"><span className="icon-paper-plane"></span></div>
-                                <span className="text">Welcome to our vegefoods.</span>
+                                <span className="text">Welcome {welcome}.</span>
                             </div>
                             <div className="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
                                 <span className="text">Demo Web application using ReactJS by Man Vo</span>

@@ -45,7 +45,7 @@ const Register = () => {
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify(regobj)
             }).then((res) => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     toast.success('Registered successfully.')
                     navigate('/login');
                 }
