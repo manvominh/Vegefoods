@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import { ShopContext } from "../context/ShopContext";
 
 const Header = () => {
     const [welcome, setWelcome] = useState('');    
-    /* const { cartItems, getTotalCartAmount, checkout } = useContext(ShopContext);
-     */
+    const { cartItems } = useContext(ShopContext);
+     
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -14,6 +14,18 @@ const Header = () => {
         //sessionStorage.clear();
     }
     
+    const getNumberOfSelectedProducts = () => {
+        console.log(cartItems.length)
+        let numberOfSelectedProducts = 0;
+        for (const item in cartItems) {
+          if (cartItems[item] > 0) {
+            
+            numberOfSelectedProducts++;
+          }
+        }
+        return numberOfSelectedProducts;
+      };
+
     let menu;
     let email = localStorage.getItem('email_vegefoods');
     
@@ -98,22 +110,12 @@ const Header = () => {
                         <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>                        
                         <li className="nav-item"><Link to="/contact" className="nav-link">Contact</Link></li>
                         {menu}
-                        <li className="nav-item cta cta-colored"><Link to="/cart" className="nav-link"><span className="icon-shopping_cart"></span>[{/* getNumberOfSelectedProducts() */}]</Link></li>
+                        <li className="nav-item cta cta-colored"><Link to="/cart" className="nav-link"><span className="icon-shopping_cart"></span>[{cartItems.length}]</Link></li>
 
                     </ul>
                 </div>
             </div>
-        </nav>
-        {/* <div className="hero-wrap hero-bread" style={{backgroundImage:'url(images/bg_1.jpg)'}}>
-            <div className="container">
-                <div className="row no-gutters slider-text align-items-center justify-content-center">
-                <div className="col-md-9 ftco-animate text-center">
-                    <p className="breadcrumbs"><span className="mr-2"><Link to="/shop" className="nav-link">Shop</Link> </span> <span>Products</span></p>
-                    <h1 className="mb-0 bread">Products</h1>
-                </div>
-                </div>
-            </div>
-        </div> */}
+        </nav>        
     </>
     );
 }

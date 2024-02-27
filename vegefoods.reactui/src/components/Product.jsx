@@ -8,8 +8,8 @@ export const Product = (props) => {
   //const { addToCart, cartItems } = useContext(ShopContext);
   const { cartItems, addToCart , removeFromCart} = useContext(ShopContext)
 
-  const cartItemCount = cartItems[id];
-
+  //const cartItem = cartItems.find((cartItem) => cartItem.id === id);
+  //const cartItemCount = cartItem.quantity || 0;
 
   return (
     <div className="col-md-6 col-lg-3 ftco-animate fadeInUp ftco-animated">
@@ -26,7 +26,7 @@ export const Product = (props) => {
                                 <p className="price"><span className="price-sale">${price}</span></p>
                                 <p>
                                     <button className="btn btn-primary" onClick={() => addToCart(props.data)}>
-                                    Add To Cart {cartItemCount > 0 && <> ({cartItemCount})</>}
+                                    Add To Cart {/* {cartItemCount > 0 && <> ({cartItemCount})</>} */}
                                     </button>
                                 </p>
                             </div>

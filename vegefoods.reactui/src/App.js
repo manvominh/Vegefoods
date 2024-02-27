@@ -28,12 +28,15 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
+import Shop from './components/Shop';
+import Cart from './components/Cart';
+import { ShopContextProvider } from "./context/ShopContext";
 
 function App() {
   return (
     <div className="App">
       <ToastContainer theme='colored' position='top-center'></ToastContainer>
-      {/* <ShopContextProvider> */}
+      <ShopContextProvider>
       <BrowserRouter>
       <Header ></Header>
       <Routes>
@@ -41,10 +44,12 @@ function App() {
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/register' element={<Register/>}></Route>   
         <Route path='/profile' element={<Profile/>}></Route> 
+        <Route path='/shop' element={<Shop/>}></Route>
+        <Route path='/cart' element={<Cart/>}></Route>
       </Routes>      
       </BrowserRouter>
       <Footer></Footer>
-      {/* </ShopContextProvider> */}
+      </ShopContextProvider>
     </div>
   );
 }
