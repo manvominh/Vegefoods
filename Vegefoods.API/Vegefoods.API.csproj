@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Vegefoods.Infrastructure\Vegefoods.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Upload\ProductImages\" />
+    <Folder Include="Upload\UserImages\" />
+  </ItemGroup>
+
 </Project>
