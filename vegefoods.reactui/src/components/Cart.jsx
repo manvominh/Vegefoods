@@ -4,7 +4,7 @@ import { ShopContext } from "../context/ShopContext";
 import { CartItem } from "./CartItem";
 
 const Cart = () => {
-    const { cartItems, addToCart, removeFromCart, clearCart, getTotalCartAmount } = useContext(ShopContext)
+    const { cartItems, getTotalCartAmount } = useContext(ShopContext)
     const totalAmount = getTotalCartAmount();
     return (
 		<section className="ftco-section ftco-cart">
@@ -21,15 +21,15 @@ const Cart = () => {
 											<th>Product name</th>
 											<th>Price</th>
 											<th>Quantity</th>
-											{/* <th>Total</th> */}
+											<th>Total</th>
 										</tr>
 									</thead>
 									<tbody>                                       
 										{cartItems.map((product) => {
-                                            
-											if (cartItems[product.id] !== 0) {
+                                            return <CartItem data={product} key={product.id} />;
+											/* if (cartItems[product.id] !== 0) {
 												return <CartItem data={product} key={product.id} />;
-											}
+											} */
 										})}
 									</tbody>
 								</table>

@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { MdDelete } from "react-icons/md";
 
 export const CartItem = (props) => {
-    const { id, name, description, price, imageUrl, quantity } = props.data;
-  console.log(props.data.quatity);
-  const { cartItems, addToCart, removeFromCart, updateCartItemCount } = useContext(ShopContext);
+    const { id, name, price, imageURL } = props.data;
+  //console.log(props.data);
+  const { cartItems, removeFromCart, updateCartItemCount } = useContext(ShopContext);
   var imgUrl = {
-    backgroundImage: 'url(' + imageUrl + ')',    
+    backgroundImage: 'url(' + imageURL + ')',    
   };
   return (
     <tr className="text-center">
@@ -17,7 +17,6 @@ export const CartItem = (props) => {
 
       <td className="product-name">
         <h3>{name}</h3>
-        <p>{description}</p>
       </td>
 
       <td className="price">${price}</td>
@@ -27,7 +26,9 @@ export const CartItem = (props) => {
           <input type="text" name="quantity" className="quantity form-control input-number" value={cartItems.find(item => item.id === id).quantity} onChange={(e) => updateCartItemCount(Number(e.target.value), id)}  min="1" max="100" />
         </div>
       </td>
-
+      <td id={id} class="total">
+          ${cartItems.find(item => item.id === id).quantity * price}
+      </td>
     </tr>
 
 

@@ -1,25 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { RotatingLines  } from "react-loader-spinner";
-import Loading from "./Loading";
+//import Loading from "./Loading";
 
 const Login = () => {
-    
-    if (!localStorage.getItem("email_vegefoods"))
-        localStorage.setItem("email_vegefoods", "");
-        
-    const [loading, setLoading] = useState(false);
-
-    const [email, emailupdate] = useState('');
-    const [password, passwordupdate] = useState('');
+       
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
 
-    const ProceedLogin = (e) => {
+    const ProceedLogin = (e) => {        
         e.preventDefault();
+        
+        if (!localStorage.getItem("email_vegefoods"))
+            localStorage.setItem("email_vegefoods", "");
+
         let loginobj = { email, password };
-        if (validate()) {
+        if (isValidate()) {
             fetch(process.env.REACT_APP_API+ "/users/login", {
                 method: "POST",
                 headers: { 'content-type': 'application/json' },
@@ -28,14 +26,13 @@ const Login = () => {
             .then((res) => {
                 return res.json();
             }).then((resp) => {
-                console.log(resp.isSuccess)
                 if (resp.isSuccess) {
                     localStorage.setItem('email_vegefoods', email);
                     toast.success('Logged In successfully.')
                     navigate('/');
                  }
                  else{
-                    toast.warn('Please re-enter your credential.')
+                    toast.warn('Your credential is invalid. Please re-enter your credential.')
                  }
             })
             .catch((err) => {
@@ -43,7 +40,7 @@ const Login = () => {
             });
         }
     }    
-    const validate = () => {
+    const isValidate = () => {
         let result = true;
         if (email === '' || email === null) {
             result = false;
@@ -64,7 +61,7 @@ const Login = () => {
         return result;
     }
     return (
-        <> {loading && <Loading />}
+        <> 
             <div className="row">
                 <div className="offset-lg-3 col-lg-6" style={{ marginTop: '100px' }}>
                     <form onSubmit={ProceedLogin} className="container">
@@ -75,23 +72,22 @@ const Login = () => {
                             <div className="card-body">
                                 <div className="form-group text-left">
                                     <label>Email <span className="errmsg">*</span></label>
-                                    <input value={email} onChange={e => emailupdate(e.target.value)} className="form-control"></input>
+                                    <input value={email} onChange={e => setEmail(e.target.value)} className="form-control"></input>
                                 </div>
                                 <div className="form-group text-left ">
                                     <label>Password <span className="errmsg">*</span></label>
-                                    <input type="password" value={password} onChange={e => passwordupdate(e.target.value)} className="form-control"></input>
+                                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="form-control"></input>
                                 </div>
                             </div>
                             <div className="card-footer">
                                 <button type="submit" className="btn btn-primary">Login</button> &nbsp;&nbsp;
-                                <Link className="btn btn-success" to={'/register'}>New User</Link>
+                                <Link className="btn btn-success" to={'/register'}>Register</Link>
                             
                             </div>
                         </div>
                     </form>
                 </div> 
             </div>        
-        <button onClick={() => setLoading(!loading) } className="btn btn-primary">Start Loading</button> 
         </>
     );
 }

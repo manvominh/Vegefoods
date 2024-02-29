@@ -53,8 +53,7 @@ const Header = () => {
             if (location.pathname === '/login' || location.pathname === '/register') {            
                 setWelcome('to our vegefoods website');    
             }
-            if(location.pathname === '/shop' || location.pathname === '/cart'
-            || location.pathname === '/contact' || location.pathname === '/about'
+            if(location.pathname === '/shop' 
             || location.pathname === '/profile')
             {
                 navigate('/login');
@@ -106,10 +105,9 @@ const Header = () => {
                         </li>
                         <li className="nav-item active">
                             <Link to="/shop" className="nav-link">Shop</Link>  
-                        </li>                        
-                        <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>                        
-                        <li className="nav-item"><Link to="/contact" className="nav-link">Contact</Link></li>
+                        </li>                                                
                         {menu}
+                        <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>                        
                         <li className="nav-item cta cta-colored"><Link to="/cart" className="nav-link"><span className="icon-shopping_cart"></span>[{cartItems.length}]</Link></li>
 
                     </ul>

@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Register = () => {
-    const [email, emailchange] = useState("");
-    const [password, passwordchange] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
 
@@ -65,16 +65,16 @@ const Register = () => {
                         <div className="card-body">
                             <div className="form-group text-left ">
                                 <label>Email <span className="errmsg">*</span></label>
-                                <input value={email} onChange={e => emailchange(e.target.value)} className="form-control"></input>
+                                <input value={email} onChange={e => setEmail(e.target.value)} className="form-control"></input>
                             </div>                        
                             <div className="form-group text-left ">
                                 <label>Password <span className="errmsg">*</span></label>
-                                <input value={password} onChange={e => passwordchange(e.target.value)} type="password" className="form-control"></input>
+                                <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="form-control"></input>
                             </div>
                         </div>
                         <div className="card-footer">
                             <button type="submit" className="btn btn-primary">Register</button>&nbsp;&nbsp; 
-                            <Link to={'/login'} className="btn btn-danger">Close</Link>
+                            <Link to={'/'} className="btn btn-danger">Close</Link>
                         </div>
                     </div>
                 </form>

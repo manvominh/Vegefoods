@@ -25,6 +25,7 @@ import { ToastContainer } from 'react-toastify';
 import Home from './components/Home';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import About from './components/About';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
@@ -46,6 +47,7 @@ function App() {
         <Route path='/profile' element={<Profile/>}></Route> 
         <Route path='/shop' element={<Shop/>}></Route>
         <Route path='/cart' element={<Cart/>}></Route>
+        <Route path='/about' element={<About/>}></Route>
       </Routes>      
       </BrowserRouter>
       <Footer></Footer>

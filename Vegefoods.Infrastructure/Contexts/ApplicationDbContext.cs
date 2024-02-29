@@ -47,7 +47,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Bell Pepper",
 				Description = "Bell Pepper",
 				Price = 110,
-				ImageUrl = "product1",
+				ImageUrl = "product-1.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -55,7 +55,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Strawberry",
 				Description = "Strawberry",
 				Price = 130,
-				ImageUrl = "product2",
+				ImageUrl = "product-2.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -63,7 +63,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Green Beans",
 				Description = "Green Beans",
 				Price = 100,
-				ImageUrl = "product3",
+				ImageUrl = "product-3.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -71,7 +71,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Purple Cabbage",
 				Description = "Purple Cabbage",
 				Price = 95,
-				ImageUrl = "product4",
+				ImageUrl = "product-4.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -79,7 +79,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Tomatoe",
 				Description = "Tomatoe",
 				Price = 120,
-				ImageUrl = "product5",
+				ImageUrl = "product-5.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -87,7 +87,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Brocolli",
 				Description = "Brocolli",
 				Price = 120,
-				ImageUrl = "product6",
+				ImageUrl = "product-6.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -95,7 +95,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Carrots",
 				Description = "Carrots",
 				Price = 98,
-				ImageUrl = "product7",
+				ImageUrl = "product-7.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -103,7 +103,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Fruit Juice",
 				Description = "Fruit Juice",
 				Price = 110,
-				ImageUrl = "product2",
+				ImageUrl = "product-8.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -111,7 +111,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Onion",
 				Description = "Onion",
 				Price = 100,
-				ImageUrl = "product3",
+				ImageUrl = "product-9.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -119,7 +119,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Apple",
 				Description = "Apple",
 				Price = 65,
-				ImageUrl = "product1",
+				ImageUrl = "product-10.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -127,7 +127,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Chilli",
 				Description = "Chilli",
 				Price = 60,
-				ImageUrl = "product2",
+				ImageUrl = "product-11.jpg",
 			});
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
@@ -135,7 +135,7 @@ namespace Vegefoods.Persistence.Contexts
 				Name = "Garlic",
 				Description = "Garlic",
 				Price = 75,
-				ImageUrl = "product3",
+				ImageUrl = "product-12.jpg",
 			});
 		}
 	}

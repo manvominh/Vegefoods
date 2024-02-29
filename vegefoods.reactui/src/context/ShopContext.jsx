@@ -45,7 +45,8 @@ export const ShopContextProvider = (props) => {
   };
 
   const updateCartItemCount = (newAmount, id) => {
-    if(newAmount !== 0 && newAmount !== ''){
+
+    if(newAmount !== 0 && newAmount !== '' && !isNaN(newAmount) ){
       setCartItems(
         cartItems.map((cartItem) =>
           cartItem.id === id
@@ -54,6 +55,7 @@ export const ShopContextProvider = (props) => {
         )
       );
     }       
+    
   };
 
   useEffect(() => {
