@@ -7,7 +7,6 @@ namespace Vegefoods.Domain.Entities
 {
 	public class User : BaseEntity
 	{
-		public int Id { get;set; }
 		[StringLength(50)]
 		[Required]
 		public string Email { get; set; }
@@ -16,7 +15,7 @@ namespace Vegefoods.Domain.Entities
 		[StringLength(50)]
 		public string? FirstName { get; set; }
 		[StringLength(50)]
-		public string? LasstName { get; set; }
+		public string? LastName { get; set; }
 		public DateTime? DateOfBirth { get; set; }
 		[StringLength(200)]
 		public string? Address { get; set; }

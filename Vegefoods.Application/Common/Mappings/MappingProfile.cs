@@ -1,6 +1,8 @@
 ﻿
 using AutoMapper;
 using System.Reflection;
+using Vegefoods.Application.Dtos;
+using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Common.Mappings
 {
@@ -9,6 +11,7 @@ namespace Vegefoods.Application.Common.Mappings
 		public MappingProfile()
 		{
 			ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+			ApplyMappingFromDtosToEntities();
 		}
 
 		private void ApplyMappingsFromAssembly(Assembly assembly)
@@ -48,6 +51,11 @@ namespace Vegefoods.Application.Common.Mappings
 					}
 				}
 			}
+		}
+
+		private void ApplyMappingFromDtosToEntities()
+		{
+			CreateMap<ProfileUserDto, User>();
 		}
 	}
 }

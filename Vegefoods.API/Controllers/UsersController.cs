@@ -51,12 +51,11 @@ namespace Vegefoods.API.Controllers
 		{
 			return Ok(await _mediator.Send(new GetUserByEmailQuery(email), cancellationToken));
 		}
-		[HttpPost]
 		//[Authorize]
-		[Route("updateProfile")]
-		public async Task<ActionResult> UpdateProfile([FromBody] ProfileUserDto profileUser, CancellationToken cancellationToken)
+		[HttpPut("{id}")]
+		public async Task<ActionResult> UpdateProfile(int id, ProfileUserDto profileUser, CancellationToken cancellationToken)
 		{
-			var response = await _mediator.Send(new UpdateUserQuery(profileUser), cancellationToken);
+			var response = await _mediator.Send(new UpdateUserQuery(id, profileUser), cancellationToken);
 
 			return Ok(response);
 		}
