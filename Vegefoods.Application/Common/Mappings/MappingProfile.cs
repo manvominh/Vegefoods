@@ -55,7 +55,7 @@ namespace Vegefoods.Application.Common.Mappings
 
 		private void ApplyMappingFromDtosToEntities()
 		{
-			CreateMap<ProfileUserDto, User>();
+			//CreateMap<ProfileUserDto, User>();
 		}
 	}
 }
