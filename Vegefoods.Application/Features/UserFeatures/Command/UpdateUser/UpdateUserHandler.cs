@@ -7,8 +7,8 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Command.UpdateUser
 {
-	public record UpdateUserQuery(int Id, ProfileUserDto ProfileUser) : IRequest<ProfileUserDto>;
-	public class UpdateUserHandler : IRequestHandler<UpdateUserQuery, ProfileUserDto>
+	public record UpdateUserQuery(UserDto UserDto) : IRequest<(bool isUpdated, UserDto userDto)>;
+	public class UpdateUserHandler : IRequestHandler<UpdateUserQuery, (bool isUpdated, UserDto userDto)>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -19,35 +19,27 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.UpdateUser
 			_mapper = mapper;
 		}
 
-		public async Task<ProfileUserDto> Handle(UpdateUserQuery query, CancellationToken cancellationToken)
+		public async Task<(bool isUpdated, UserDto userDto)> Handle(UpdateUserQuery query, CancellationToken cancellationToken)
 		{
-			try
+			//var user = _mapper.Map<User>(query);
+			var user = new User()
 			{
-				//var user = _mapper.Map<User>(query);
-				var user = new User()
-				{
 
-					Id = query.Id,
-					Email = query.ProfileUser.Email,
-					Password = HashHelper.HashPassword(query.ProfileUser.Password),
-					FirstName = query.ProfileUser.FirstName,
-					LastName = query.ProfileUser.LastName,
-					DateOfBirth = query.ProfileUser.DateOfBirth,
-					Address = query.ProfileUser.Address,
-					Country = query.ProfileUser.Country,
-					Phone = query.ProfileUser.Phone,
-					Gender = query.ProfileUser.Gender,
-				};
-				await _unitOfWork.Repository<User>().UpdateAsync(user);
-				await _unitOfWork.Save(cancellationToken);
+				Id = query.UserDto.Id,
+				Email = query.UserDto.Email,
+				Password = HashHelper.HashPassword(query.UserDto.Password),
+				FirstName = query.UserDto.FirstName,
+				LastName = query.UserDto.LastName,
+				DateOfBirth = query.UserDto.DateOfBirth,
+				Address = query.UserDto.Address,
+				Country = query.UserDto.Country,
+				Phone = query.UserDto.Phone,
+				Gender = query.UserDto.Gender,
+			};
+			await _unitOfWork.Repository<User>().UpdateAsync(user);
+			await _unitOfWork.Save(cancellationToken);
 
-				return _mapper.Map<ProfileUserDto>(user);
-			}
-			catch(Exception ex)
-			{
-				_unitOfWork.Rollback();
-			}
-			return new ProfileUserDto();
+			return (true, _mapper.Map<UserDto>(user));
 		}
 	}
 }

@@ -53,11 +53,16 @@ namespace Vegefoods.API.Controllers
 		}
 		//[Authorize]
 		[HttpPut("{id}")]
-		public async Task<ActionResult> UpdateProfile(int id, ProfileUserDto profileUser, CancellationToken cancellationToken)
+		public async Task<ActionResult> UpdateProfile(int id, UserDto user, CancellationToken cancellationToken)
 		{
-			var response = await _mediator.Send(new UpdateUserQuery(id, profileUser), cancellationToken);
+			if (user.Id != id)
+				throw new BadRequestException($"Invalid Id: {id}");
 
-			return Ok(response);
+			var response = await _mediator.Send(new UpdateUserQuery(user), cancellationToken);
+			if(response.isUpdated)
+				return Ok(response);
+
+			throw new BadRequestException("Updated user failed.");
 		}
 	}
 }
