@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Vegefoods.Application.Common.Caching;
 using Vegefoods.Application.Interfaces;
+using Vegefoods.Persistence.Common.Caching;
 using Vegefoods.Persistence.Contexts;
 using Vegefoods.Persistence.Repositories;
 
@@ -15,8 +17,15 @@ namespace Vegefoods.Persistence.Extensions
 		{
 			services.AddMappings();
 			services.AddDbContext(configuration);
+			services.AddCaches(configuration);
 			services.AddRepositories();
 		}
+		private static void AddCaches(this IServiceCollection services, IConfiguration configuration)
+		{
+			services.AddSingleton(configuration.GetRequiredSection(nameof(CacheOptions)).Get<CacheOptions>());
+			services.AddTransient<ICacheService, CacheService>();
+			services.AddMemoryCache();
+		}		
 
 		private static void AddMappings(this IServiceCollection services)
 		{
@@ -38,7 +47,7 @@ namespace Vegefoods.Persistence.Extensions
 				.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
 				.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
 			//.AddTransient<IProductRepository, ProductRepository>()
-			.AddTransient<IJwtAuthenticationManagerService, JwtAuthenticationManagerService>()
+			.AddTransient<IJwtAuthenticationManagerService, JwtAuthenticationManagerService>()			
 			;
 		}
 	}

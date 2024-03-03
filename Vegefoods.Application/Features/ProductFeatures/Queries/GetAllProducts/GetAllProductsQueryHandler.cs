@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Vegefoods.Application.Common.Caching;
 using Vegefoods.Application.Dtos;
 using Vegefoods.Application.Interfaces;
 using Vegefoods.Domain.Entities;
@@ -15,16 +16,25 @@ namespace Vegefoods.Application.Features.ProductFeatures
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IHttpContextAccessor _context;
-		public GetAllProductsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor context)
+
+		private readonly ICacheService _cacheService;
+
+		public GetAllProductsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor context
+			, ICacheService cacheService)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_context = context;
+			_cacheService = cacheService;
 		}
 
 		public async Task<IEnumerable<ProductDto>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
 		{
-			return await _unitOfWork.Repository<Product>().Entities
+			var cacheKey = $"GetProductsQuery";
+
+			return await _cacheService.GetOrCreateAsync(cacheKey, async () =>
+			{
+				return await _unitOfWork.Repository<Product>().Entities
 				.Select(x => new ProductDto()
 				{
 					Id = x.Id,
@@ -34,6 +44,7 @@ namespace Vegefoods.Application.Features.ProductFeatures
 					ImageURL = $"{_context.HttpContext.Request.Scheme}://{_context.HttpContext.Request.Host}{_context.HttpContext.Request.PathBase}/Upload/ProductImages/{x.ImageUrl}"
 				})
 				.ToListAsync(cancellationToken);
+			});
 		}
 	}
 }
