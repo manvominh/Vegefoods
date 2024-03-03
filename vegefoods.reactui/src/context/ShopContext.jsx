@@ -25,19 +25,7 @@ export const ShopContextProvider = (props) => {
   };
 
   const removeFromCart = (id) => {
-    const isItemInCart = cartItems.find((cartItem) => cartItem.id === id);
-
-    if (isItemInCart.quantity === 1) {
-      setCartItems(cartItems.filter((cartItem) => cartItem.id !== id));
-    } else {
-      setCartItems(
-        cartItems.map((cartItem) =>
-          cartItem.id === id
-            ? { ...cartItem, quantity: cartItem.quantity - 1 }
-            : cartItem
-        )
-      );
-    }
+    setCartItems(cartItems.filter((cartItem) => cartItem.id !== id));
   };
 
   const clearCart = () => {

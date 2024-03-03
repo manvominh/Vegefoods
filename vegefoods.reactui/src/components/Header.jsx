@@ -14,7 +14,7 @@ const Header = () => {
         //sessionStorage.clear();
     }
     
-    const getNumberOfSelectedProducts = () => {
+   /*  const getNumberOfSelectedProducts = () => {
         console.log(cartItems.length)
         let numberOfSelectedProducts = 0;
         for (const item in cartItems) {
@@ -24,7 +24,7 @@ const Header = () => {
           }
         }
         return numberOfSelectedProducts;
-      };
+      }; */
 
     let menu;
     let email = localStorage.getItem('email_vegefoods');
@@ -50,7 +50,8 @@ const Header = () => {
    useEffect(() => {
 
         if (email === '' || email === null) {
-            if (location.pathname === '/login' || location.pathname === '/register') {            
+            if (location.pathname === '/' 
+            || location.pathname === '/login' || location.pathname === '/register') {            
                 setWelcome('to our vegefoods website');    
             }
             if(location.pathname === '/shop' 
@@ -66,7 +67,7 @@ const Header = () => {
             }         
         }
         
-    }, [])
+    }, [location])
 
     return (        
         <>

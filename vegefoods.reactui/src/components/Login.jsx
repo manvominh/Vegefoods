@@ -81,7 +81,7 @@ const Login = () => {
                             </div>
                             <div className="card-footer">
                                 <button type="submit" className="btn btn-primary">Login</button> &nbsp;&nbsp;
-                                <Link className="btn btn-success" to={'/register'}>Register</Link>
+                                <Link className="btn btn-success" to={'/register'}>Not yet had account? Register here</Link>
                             
                             </div>
                         </div>

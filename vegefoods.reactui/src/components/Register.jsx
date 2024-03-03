@@ -74,6 +74,7 @@ const Register = () => {
                         </div>
                         <div className="card-footer">
                             <button type="submit" className="btn btn-primary">Register</button>&nbsp;&nbsp; 
+                            <Link to={'/login'} className="btn btn-warning">Already had account? Click here</Link>&nbsp;&nbsp; 
                             <Link to={'/'} className="btn btn-danger">Close</Link>
                         </div>
                     </div>
