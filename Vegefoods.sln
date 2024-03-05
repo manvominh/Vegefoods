@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vegefoods.API", "Vegefoods.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vegefoods.API.Test", "Vegefoods.API.Test\Vegefoods.API.Test.csproj", "{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ECCB0581-5E35-47AE-BB02-B57CAB24C2CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{024B8F6B-35FA-4704-A4AA-C44DC48EFA85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECCB0581-5E35-47AE-BB02-B57CAB24C2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECCB0581-5E35-47AE-BB02-B57CAB24C2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECCB0581-5E35-47AE-BB02-B57CAB24C2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECCB0581-5E35-47AE-BB02-B57CAB24C2CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

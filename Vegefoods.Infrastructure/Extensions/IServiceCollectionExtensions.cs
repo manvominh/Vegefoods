@@ -13,10 +13,10 @@ namespace Vegefoods.Persistence.Extensions
 {
 	public static class IServiceCollectionExtensions
 	{
-		public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
+		public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration, string dbHost, string dbName, string dbPassword)
 		{
 			services.AddMappings();
-			services.AddDbContext(configuration);
+			services.AddDbContext(configuration, dbHost, dbName, dbPassword);
 			services.AddCaches(configuration);
 			services.AddRepositories();
 		}
@@ -32,9 +32,9 @@ namespace Vegefoods.Persistence.Extensions
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 		}
 
-		public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
+		public static void AddDbContext(this IServiceCollection services, IConfiguration configuration, string dbHost, string dbName, string dbPassword)
 		{
-			var connectionString = configuration.GetConnectionString("DefaultConnection");
+			var connectionString = string.Format(configuration.GetConnectionString("DefaultConnection"), dbHost, dbName, dbPassword);
 
 			services.AddDbContext<ApplicationDbContext>(options =>
 			   options.UseSqlServer(connectionString,

@@ -5,9 +5,12 @@ using Vegefoods.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container.		
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
 builder.Services.AddApplicationLayer();
-builder.Services.AddPersistenceLayer(builder.Configuration);
+builder.Services.AddPersistenceLayer(builder.Configuration, dbHost, dbName, dbPassword);
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
