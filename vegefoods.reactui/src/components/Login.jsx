@@ -80,9 +80,8 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="card-footer">
-                                <button type="submit" className="btn btn-primary">Login</button> &nbsp;&nbsp;
-                                <Link className="btn btn-success" to={'/register'}>Not yet had account? Register here</Link>
-                            
+                                <button type="submit" className="btn btn-primary">Login</button> &nbsp;&nbsp;                                
+                                <Link to={'/'} className="btn btn-danger">Close</Link>
                             </div>
                         </div>
                     </form>
