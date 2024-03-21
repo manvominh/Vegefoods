@@ -54,8 +54,7 @@ const Header = () => {
             || location.pathname === '/login' || location.pathname === '/register') {            
                 setWelcome('to our vegefoods website');    
             }
-            if(location.pathname === '/shop' 
-            || location.pathname === '/profile')
+            if(location.pathname === '/profile')
             {
                 navigate('/login');
             }                                 
