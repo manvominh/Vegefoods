@@ -28,6 +28,7 @@ const Login = () => {
             }).then((resp) => {
                 if (resp.isSuccess) {
                     localStorage.setItem('email_vegefoods', email);
+                    localStorage.setItem('token_vegefoods', resp.token);
                     toast.success('Logged In successfully.')
                     navigate('/');
                  }

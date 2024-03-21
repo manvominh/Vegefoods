@@ -2,20 +2,16 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {Product}  from "./Product";
+import api from '../helpers/api';
 
 const Shop = () => {
     const [products, setProducts] = useState([]) ;
 
     useEffect(() => {
-        fetch(process.env.REACT_APP_API+ "/products", {
-            method: "GET",
-            headers: { 'content-type': 'application/json' }
-        })
-        .then((res) => {
-            return res.json();
-        }).then((resp) => {
-            //console.log(resp);
-            setProducts(resp);
+        
+        api.get("/products")        
+        .then(response => {
+          setProducts(response.data);
         })
         .catch((err) => {
             toast.error('Fetch Products Failed due to :' + err.message);

@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import api from '../helpers/api';
+
 const Profile = () => {
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
@@ -26,26 +28,29 @@ const Profile = () => {
         }
         else{
          //displayusernameupdate(username);
-         fetch(process.env.REACT_APP_API+"/users/GetUserByEmail/" + email_vegefoods).then((res) => {
-                return res.json();
-            }).then((resp) => {
-                //console.log(resp)
-                setId(resp.id);
-                setEmail(resp.email);
-                setPassword(resp.password);
-                setConfirmPassword(resp.password);
-                setFirstName(resp.firstName);
-                setLastName(resp.lastName);
-                setPhone(resp.phone);
-                setCountry(resp.country);
-                setAddress(resp.address);
-                setGender(resp.gender);
-                setDateOfBirth(resp.dateOfBirth);
-            }).catch((err) => {
-                toast.error('Get Profile Information Failed due to :' + err.message);
-            });
-        }
- 
+
+        api.get("/users/GetUserByEmail/" + email_vegefoods)
+        .then(response => {
+            // Handle the response
+            //console.log(response.data);
+            setId(response.data.id);
+            setEmail(response.data.email);
+            setPassword(response.data.password);
+            setConfirmPassword(response.data.password);
+            setFirstName(response.data.firstName);
+            setLastName(response.data.lastName);
+            setPhone(response.data.phone);
+            setCountry(response.data.country);
+            setAddress(response.data.address);
+            setGender(response.data.gender);
+            setDateOfBirth(response.data.dateOfBirth);
+        })
+        .catch(error => {
+            // Handle errors
+            toast.error('Get Profile Information Failed due to :' + error.message);
+        });
+    }             
+
      }, []);
 
     const IsValidate = () => {
