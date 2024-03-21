@@ -45,13 +45,13 @@ namespace Vegefoods.API.Controllers
 				throw new BadRequestException("User not found.");
 			return Ok(response);
 		}
-		[AllowAnonymous]
+		[Authorize]
 		[HttpGet("GetUserByEmail/{email}")]
 		public async Task<ActionResult> GetUserByEmail(string email, CancellationToken cancellationToken)
 		{
 			return Ok(await _mediator.Send(new GetUserByEmailQuery(email), cancellationToken));
 		}
-		//[Authorize]
+		[Authorize]
 		[HttpPut("{id}")]
 		public async Task<ActionResult> UpdateProfile(int id, UserDto user, CancellationToken cancellationToken)
 		{

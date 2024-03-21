@@ -42,44 +42,44 @@ namespace Vegefoods.Persistence.Repositories
 			return Task.FromResult(new Tokens { Token = token, IsSuccess = true });
 		}
 		
-		public ClaimsPrincipal GetPrincipalFromToken(string token)
-		{
-			try
-			{
-				var key = Encoding.UTF8.GetBytes(JWT_SECURITY_KEY);
-				var tokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(key),
-					ValidateIssuer = false,
-					ValidateAudience = false,
-					ValidateLifetime = true,  // don't care about the token's expiration date  if false
-				};
-				var tokenHandler = new JwtSecurityTokenHandler();
-				var jwt = tokenHandler.ReadJwtToken(token);
-				var expiredTime = jwt.Claims.First(c => c.Type == ClaimTypes.Expiration).Value;
-				if (DateTime.Parse(expiredTime) < DateTime.UtcNow)
-				{
-					return null;
-				}
-				SecurityToken securityToken;
-				//validating the token
-				var principle = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-				JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
-				if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-				{
-					throw new SecurityTokenException("Invalid token");
-				}
+		//public ClaimsPrincipal GetPrincipalFromToken(string token)
+		//{
+		//	try
+		//	{
+		//		var key = Encoding.UTF8.GetBytes(JWT_SECURITY_KEY);
+		//		var tokenValidationParameters = new TokenValidationParameters
+		//		{
+		//			ValidateIssuerSigningKey = true,
+		//			IssuerSigningKey = new SymmetricSecurityKey(key),
+		//			ValidateIssuer = false,
+		//			ValidateAudience = false,
+		//			ValidateLifetime = true,  // don't care about the token's expiration date  if false
+		//		};
+		//		var tokenHandler = new JwtSecurityTokenHandler();
+		//		var jwt = tokenHandler.ReadJwtToken(token);
+		//		var expiredTime = jwt.Claims.First(c => c.Type == ClaimTypes.Expiration).Value;
+		//		if (DateTime.Parse(expiredTime) < DateTime.UtcNow)
+		//		{
+		//			return null;
+		//		}
+		//		SecurityToken securityToken;
+		//		//validating the token
+		//		var principle = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+		//		JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
+		//		if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+		//		{
+		//			throw new SecurityTokenException("Invalid token");
+		//		}
 
-				return principle;
-			}
-			catch (Exception ex)
-			{
-				//logging the error and returning null
-				Console.WriteLine("Exception : " + ex.Message);
-				return null;
-			}
+		//		return principle;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		//logging the error and returning null
+		//		Console.WriteLine("Exception : " + ex.Message);
+		//		return null;
+		//	}
 
-		}
+		//}
 	}
 }

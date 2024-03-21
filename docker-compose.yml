@@ -20,11 +20,13 @@ services:
     build:
       context: .
       dockerfile: Vegefoods.API/Dockerfile
+    extra_hosts:
+      - host.docker.internal:host-gateway
     networks:
        - backend
     ports:
         - 8002:80   
     environment:
-        - DB_HOST=vegefoodsdb
+        - DB_HOST=host.docker.internal
         - DB_NAME=vegefoods
         - DB_SA_PASSWORD=1qazZAQ!
