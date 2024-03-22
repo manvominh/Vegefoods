@@ -11,6 +11,7 @@ import { LoginComponent } from './Pages/users/login/login.component';
 import { ProfileComponent } from './Pages/users/profile/profile.component';
 import { FooterComponent } from './Pages/partials/footer/footer.component';
 import { NavbarComponent } from './Pages/partials/navbar/navbar.component';
+import { AboutComponent } from './Pages/about/about.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NavbarComponent } from './Pages/partials/navbar/navbar.component';
     LoginComponent,
     ProfileComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
