@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import api from '../helpers/api';
+import apihelper from '../helpers/apihelper';
 
 const Profile = () => {
     const [id, setId] = useState("");
@@ -29,7 +29,7 @@ const Profile = () => {
         else{
          //displayusernameupdate(username);
 
-        api.get("/users/GetUserByEmail/" + email_vegefoods)
+        apihelper.get("/users/GetUserByEmail/" + email_vegefoods)
         .then(response => {
             // Handle the response
             //console.log(response.data);
@@ -84,31 +84,27 @@ const Profile = () => {
 
     const handlesubmit = (e) => {
         e.preventDefault();
-        //let profileUser = { id, email, password, firstname, lastname, phone, country, address, gender, dateofbirth };
+        let profileUser = { 
+            Id: id, 
+            Email: email,
+            Password: password,
+            ConfirmPassword: confirmpassword,
+            FirstName: firstname || "",
+            DateOfBirth: dateofbirth,
+            LastName: lastname || "",
+            Phone: phone || "",
+            Country: country || "",
+            Gender: gender || "",
+            Address: address || ""
+        }
         if (IsValidate()) {
-        //console.log(profileUser);
-        fetch(process.env.REACT_APP_API+"/users/" + id, {
-                method: "PUT",
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ 
-                    Id: id, 
-                    Email: email,
-                    Password: password,
-                    ConfirmPassword: confirmpassword,
-                    FirstName: firstname || "",
-                    DateOfBirth: dateofbirth,
-                    LastName: lastname || "",
-                    Phone: phone || "",
-                    Country: country || "",
-                    Gender: gender || "",
-                    Address: address || ""
-                })                
-            }).then((res) => {
-                if(res.ok)
-                    toast.success('Update Profile Information successfully.')                
-            }).catch((err) => {
-                toast.error('Failed :' + err.message);
-            });
+            //console.log(profileUser);       
+            apihelper.put("/users/" + id, profileUser) 
+            .then(response => console.log(response.data))
+            .catch(error => {
+                //console.error('There was an error!', error);
+                toast.error('There was an error!', error);
+            });             
         }
     }
 
@@ -172,8 +168,7 @@ const Profile = () => {
                             </select>
                         </div>
                     </div>
-                    <div className="form-group row text-right">
-                        {console.log(gender)}
+                    <div className="form-group row text-right">                       
                         <label htmlFor="gender" className="col-sm-4 col-form-label">Gender</label>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <input id="gender" type="radio" checked={gender === 'male'} onChange={e => setGender(e.target.value)} name="gender" value="male" className="app-check"></input>

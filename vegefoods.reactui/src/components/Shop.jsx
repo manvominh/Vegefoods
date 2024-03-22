@@ -2,14 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {Product}  from "./Product";
-import api from '../helpers/api';
+import apihelper from '../helpers/apihelper';
 
 const Shop = () => {
     const [products, setProducts] = useState([]) ;
 
     useEffect(() => {
         
-        api.get("/products")        
+      apihelper.get("/products")        
         .then(response => {
           setProducts(response.data);
         })

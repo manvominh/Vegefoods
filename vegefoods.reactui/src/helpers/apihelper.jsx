@@ -1,12 +1,12 @@
 // Wrapper for HTTP requests with Axios
 import axios from 'axios';
 
-const api = axios.create({
+const apihelper = axios.create({
    baseURL: process.env.REACT_APP_API,
 });
 
 // Add an interceptor for all requests
-api.interceptors.request.use(config => {
+apihelper.interceptors.request.use(config => {
    // Retrieve the access token from React state or a state management system
    const accessToken = localStorage.getItem('token_vegefoods');
 
@@ -15,4 +15,4 @@ api.interceptors.request.use(config => {
    return config;
 });
 
-export default api;
+export default apihelper;
