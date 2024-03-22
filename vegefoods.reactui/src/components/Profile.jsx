@@ -24,32 +24,35 @@ const Profile = () => {
     useEffect(() => {
         
         if(email_vegefoods === '' || email_vegefoods === null){
-         navigate('/login');
+            navigate('/login');
         }
-        else{
-         //displayusernameupdate(username);
+        else{        
 
-        apihelper.get("/users/GetUserByEmail/" + email_vegefoods)
-        .then(response => {
-            // Handle the response
-            //console.log(response.data);
-            setId(response.data.id);
-            setEmail(response.data.email);
-            setPassword(response.data.password);
-            setConfirmPassword(response.data.password);
-            setFirstName(response.data.firstName);
-            setLastName(response.data.lastName);
-            setPhone(response.data.phone);
-            setCountry(response.data.country);
-            setAddress(response.data.address);
-            setGender(response.data.gender);
-            setDateOfBirth(response.data.dateOfBirth);
-        })
-        .catch(error => {
-            // Handle errors
-            toast.error('Get Profile Information Failed due to :' + error.message);
-        });
-    }             
+            apihelper.get("/users/GetUserByEmail/" + email_vegefoods)
+            .then(response => {
+                // Handle the response
+                //console.log(response.data);
+                if (response.status === 200) {
+                    setId(response.data.id);
+                    setEmail(response.data.email);
+                    setPassword(response.data.password);
+                    setConfirmPassword(response.data.password);
+                    setFirstName(response.data.firstName);
+                    setLastName(response.data.lastName);
+                    setPhone(response.data.phone);
+                    setCountry(response.data.country);
+                    setAddress(response.data.address);
+                    setGender(response.data.gender);
+                    setDateOfBirth(response.data.dateOfBirth);
+                }
+                else
+                    throw new Error(response.status);
+            })
+            .catch(error => {
+                // Handle errors
+                toast.error('Get Profile Information Failed due to :' + error.message);
+            });
+        }             
 
      }, []);
 
@@ -100,9 +103,12 @@ const Profile = () => {
         if (IsValidate()) {
             //console.log(profileUser);       
             apihelper.put("/users/" + id, profileUser) 
-            .then(response => console.log(response.data))
-            .catch(error => {
-                //console.error('There was an error!', error);
+            .then(response => {
+                //console.log(response.status);
+                if(response.status === 200)
+                    toast.success('Updated Profile successfully.')
+            })
+            .catch(error => {                
                 toast.error('There was an error!', error);
             });             
         }
