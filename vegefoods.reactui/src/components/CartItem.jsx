@@ -26,7 +26,7 @@ export const CartItem = (props) => {
           <input type="text" name="quantity" className="quantity form-control input-number" value={cartItems.find(item => item.id === id).quantity} onChange={(e) => updateCartItemCount(Number(e.target.value), id)}  min="1" max="100" />
         </div>
       </td>
-      <td id={id} class="total">
+      <td id={id} className="total">
           ${cartItems.find(item => item.id === id).quantity * price}
       </td>
     </tr>

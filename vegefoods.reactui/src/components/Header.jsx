@@ -10,21 +10,9 @@ const Header = () => {
     const location = useLocation();
 
     const logout = () => {
-        localStorage.setItem("email_vegefoods", "");
-        //sessionStorage.clear();
-    }
-    
-   /*  const getNumberOfSelectedProducts = () => {
-        console.log(cartItems.length)
-        let numberOfSelectedProducts = 0;
-        for (const item in cartItems) {
-          if (cartItems[item] > 0) {
-            
-            numberOfSelectedProducts++;
-          }
-        }
-        return numberOfSelectedProducts;
-      }; */
+        localStorage.removeItem('email_vegefoods');
+        localStorage.removeItem('token_vegefoods');
+    }    
 
     let menu;
     let email = localStorage.getItem('email_vegefoods');

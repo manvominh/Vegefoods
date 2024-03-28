@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import apihelper from '../helpers/apihelper';
+
 const Profile = () => {
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
@@ -22,30 +24,36 @@ const Profile = () => {
     useEffect(() => {
         
         if(email_vegefoods === '' || email_vegefoods === null){
-         navigate('/login');
+            navigate('/login');
         }
-        else{
-         //displayusernameupdate(username);
-         fetch(process.env.REACT_APP_API+"/users/GetUserByEmail/" + email_vegefoods).then((res) => {
-                return res.json();
-            }).then((resp) => {
-                //console.log(resp)
-                setId(resp.id);
-                setEmail(resp.email);
-                setPassword(resp.password);
-                setConfirmPassword(resp.password);
-                setFirstName(resp.firstName);
-                setLastName(resp.lastName);
-                setPhone(resp.phone);
-                setCountry(resp.country);
-                setAddress(resp.address);
-                setGender(resp.gender);
-                setDateOfBirth(resp.dateOfBirth);
-            }).catch((err) => {
-                toast.error('Get Profile Information Failed due to :' + err.message);
+        else{        
+
+            apihelper.get("/users/GetUserByEmail/" + email_vegefoods)
+            .then(response => {
+                // Handle the response
+                //console.log(response.data);
+                if (response.status === 200) {
+                    setId(response.data.id);
+                    setEmail(response.data.email);
+                    setPassword(response.data.password);
+                    setConfirmPassword(response.data.password);
+                    setFirstName(response.data.firstName);
+                    setLastName(response.data.lastName);
+                    setPhone(response.data.phone);
+                    setCountry(response.data.country);
+                    setAddress(response.data.address);
+                    setGender(response.data.gender);
+                    setDateOfBirth(response.data.dateOfBirth);
+                }
+                else
+                    throw new Error(response.status);
+            })
+            .catch(error => {
+                // Handle errors
+                toast.error('Get Profile Information Failed due to :' + error.message);
             });
-        }
- 
+        }             
+
      }, []);
 
     const IsValidate = () => {
@@ -79,31 +87,30 @@ const Profile = () => {
 
     const handlesubmit = (e) => {
         e.preventDefault();
-        //let profileUser = { id, email, password, firstname, lastname, phone, country, address, gender, dateofbirth };
+        let profileUser = { 
+            Id: id, 
+            Email: email,
+            Password: password,
+            ConfirmPassword: confirmpassword,
+            FirstName: firstname || "",
+            DateOfBirth: dateofbirth,
+            LastName: lastname || "",
+            Phone: phone || "",
+            Country: country || "",
+            Gender: gender || "",
+            Address: address || ""
+        }
         if (IsValidate()) {
-        //console.log(profileUser);
-        fetch(process.env.REACT_APP_API+"/users/" + id, {
-                method: "PUT",
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ 
-                    Id: id, 
-                    Email: email,
-                    Password: password,
-                    ConfirmPassword: confirmpassword,
-                    FirstName: firstname || "",
-                    DateOfBirth: dateofbirth,
-                    LastName: lastname || "",
-                    Phone: phone || "",
-                    Country: country || "",
-                    Gender: gender || "",
-                    Address: address || ""
-                })                
-            }).then((res) => {
-                if(res.ok)
-                    toast.success('Update Profile Information successfully.')                
-            }).catch((err) => {
-                toast.error('Failed :' + err.message);
-            });
+            //console.log(profileUser);       
+            apihelper.put("/users/" + id, profileUser) 
+            .then(response => {
+                //console.log(response.status);
+                if(response.status === 200)
+                    toast.success('Updated Profile successfully.')
+            })
+            .catch(error => {                
+                toast.error('There was an error!', error);
+            });             
         }
     }
 
@@ -167,8 +174,7 @@ const Profile = () => {
                             </select>
                         </div>
                     </div>
-                    <div className="form-group row text-right">
-                        {console.log(gender)}
+                    <div className="form-group row text-right">                       
                         <label htmlFor="gender" className="col-sm-4 col-form-label">Gender</label>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <input id="gender" type="radio" checked={gender === 'male'} onChange={e => setGender(e.target.value)} name="gender" value="male" className="app-check"></input>

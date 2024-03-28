@@ -1,1 +1,44 @@
-<p>register works!</p>
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Register</h1>    
+</div>
+<!-- Single Page Header End -->
+
+<!-- Register Page Start -->
+<div class="container-fluid">
+    <div class="container">
+         <div *ngIf="isLoading; else elseForm"> // need to search empty tag html
+            <app-loading></app-loading>
+        </div>
+        <ng-template #elseForm>         
+            <form [formGroup]="registerForm" (ngSubmit)="RegisterUser()">
+                <div class="row g-5">
+                    <div class="col-md-12 col-lg-6 col-xl-7">
+                        <div class="form-item">
+                            <label class="form-label my-3">Email Address<sup>*</sup></label>
+                            <input type="email" formControlName="email" class="form-control" >
+                            <div *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched"
+                                class="text-danger">
+                                Email is required.
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Password<sup>*</sup></label>
+                            <input type="password" formControlName="password" class="form-control">
+                            <div *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched"
+                                class="text-danger">
+                                Password is required.
+                            </div>
+                        </div>             
+                        <div class="mt-4">                        
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit">Register</button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-danger" type="button">Close</button>
+                        </div>       
+                    </div>                        
+                </div> 	
+            </form>
+        </ng-template>  
+    </div>
+</div>
+<!-- Register Page End -->

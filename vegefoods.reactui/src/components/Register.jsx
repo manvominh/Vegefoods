@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import apihelper from '../helpers/apihelper';
 
 const Register = () => {
     const [email, setEmail] = useState("");
@@ -39,12 +40,9 @@ const Register = () => {
         e.preventDefault();
         let regobj = { email, password };
         if (IsValidate()) {
-        //console.log(regobj);
-        fetch(process.env.REACT_APP_API+ "/users/register", {
-                method: "POST",
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify(regobj)
-            }).then((res) => {
+            //console.log(regobj);
+            apihelper.post("/users/register", regobj)
+            .then((res) => {
                 if (res.status === 200) {
                     toast.success('Registered successfully.')
                     navigate('/login');
@@ -74,7 +72,6 @@ const Register = () => {
                         </div>
                         <div className="card-footer">
                             <button type="submit" className="btn btn-primary">Register</button>&nbsp;&nbsp; 
-                            <Link to={'/login'} className="btn btn-warning">Already had account? Click here</Link>&nbsp;&nbsp; 
                             <Link to={'/'} className="btn btn-danger">Close</Link>
                         </div>
                     </div>

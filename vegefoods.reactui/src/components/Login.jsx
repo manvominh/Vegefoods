@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import apihelper from '../helpers/apihelper';
 //import Loading from "./Loading";
 
 const Login = () => {
@@ -18,16 +19,13 @@ const Login = () => {
 
         let loginobj = { email, password };
         if (isValidate()) {
-            fetch(process.env.REACT_APP_API+ "/users/login", {
-                method: "POST",
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify(loginobj)
-            })
-            .then((res) => {
-                return res.json();
-            }).then((resp) => {
-                if (resp.isSuccess) {
+
+            apihelper.post("/users/login", loginobj)
+            .then((resp) => {
+                //console.log(resp);
+                if (resp.data.isSuccess) {
                     localStorage.setItem('email_vegefoods', email);
+                    localStorage.setItem('token_vegefoods', resp.data.token);
                     toast.success('Logged In successfully.')
                     navigate('/');
                  }
@@ -80,9 +78,8 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="card-footer">
-                                <button type="submit" className="btn btn-primary">Login</button> &nbsp;&nbsp;
-                                <Link className="btn btn-success" to={'/register'}>Not yet had account? Register here</Link>
-                            
+                                <button type="submit" className="btn btn-primary">Login</button> &nbsp;&nbsp;                                
+                                <Link to={'/'} className="btn btn-danger">Close</Link>
                             </div>
                         </div>
                     </form>
