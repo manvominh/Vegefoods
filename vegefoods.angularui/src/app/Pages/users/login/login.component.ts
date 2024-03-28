@@ -34,8 +34,18 @@ export class LoginComponent implements OnInit {
       
       this.userService.Login(this.loginForm.value).subscribe({
               next: (res: any) => {
-                this.toastr.success('Logged In successfully', 'Information');
-                this.router.navigate(['/home']);
+                console.log(res);
+                console.log(this.loginForm.value.email);
+                if(res.isSuccess)
+                {
+                  localStorage.setItem('email_vegefoods_angular', this.loginForm.value.email);
+                  localStorage.setItem('token_vegefoods_angular', res.token);
+                  this.toastr.success('Logged In successfully', 'Information');
+                  this.router.navigate(['/home']);
+                }
+                else {
+                  this.toastr.warning('Invalid Credential', 'Warning');
+                }                
               },
               error: (err: any) => {
                 this.errors = err.error.errors;
