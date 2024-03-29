@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
@@ -19,6 +19,9 @@ import { NavbarComponent } from './Pages/partials/navbar/navbar.component';
 import { AboutComponent } from './Pages/about/about.component';
 import { UserService } from './Services/user.service';
 import { LoadingComponent } from './Pages/partials/loading/loading.component';
+import { ProductService } from './Services/product.service';
+import { AuthService } from './Services/auth.service';
+import { AuthInterceptorService } from './Services/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,13 @@ import { LoadingComponent } from './Pages/partials/loading/loading.component';
   ],
   providers: [
     UserService,
+    ProductService,
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })
