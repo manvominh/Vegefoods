@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -22,6 +22,9 @@ import { LoadingComponent } from './Pages/partials/loading/loading.component';
 import { ProductService } from './Services/product.service';
 import { AuthService } from './Services/auth.service';
 import { AuthInterceptorService } from './Services/auth-interceptor.service';
+import { PageNotFoundComponent } from './Pages/page-not-found/page-not-found.component';
+import { GlobalErrorComponent } from './Pages/global-error/global-error.component';
+import { GlobalErrorHandlerService } from './Services/global-error-handler.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,9 @@ import { AuthInterceptorService } from './Services/auth-interceptor.service';
     FooterComponent,
     NavbarComponent,
     AboutComponent,
-    LoadingComponent
+    LoadingComponent,
+    PageNotFoundComponent,
+    GlobalErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +59,9 @@ import { AuthInterceptorService } from './Services/auth-interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
-    }
+    },
+    GlobalErrorHandlerService,
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
   ],
   bootstrap: [AppComponent]
 })

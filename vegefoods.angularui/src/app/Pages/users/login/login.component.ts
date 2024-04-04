@@ -1,8 +1,8 @@
+import { AuthService } from './../../../Services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { UserService } from '../../../Services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ import { UserService } from '../../../Services/user.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading: boolean = false;
-  //loadingTitle: string = 'Loading ...';
+
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
        email: ['', Validators.required],
@@ -20,26 +20,25 @@ export class LoginComponent implements OnInit {
     });
  }
 
- constructor(private userService: UserService,
+ constructor(private authService: AuthService,
   private formBuilder: FormBuilder,
   private toastr: ToastrService,
   private router: Router) { }
   errors : any = []
 
    public Login() {
-    console.log("login pressed");
+    //console.log("login pressed");
     this.isLoading = true;
     //this.loadingTitle = "Registering a user ....";
     if (this.loginForm.valid) { 
       
-      this.userService.Login(this.loginForm.value).subscribe({
+      this.authService.login(this.loginForm.value).subscribe({
               next: (res: any) => {
-                console.log(res);
-                console.log(this.loginForm.value.email);
+                //console.log(res);
+                //console.log(this.loginForm.value.email);
                 if(res.isSuccess)
                 {
                   localStorage.setItem('email_vegefoods_angular', this.loginForm.value.email);
-                  localStorage.setItem('token_vegefoods_angular', res.token);
                   this.toastr.success('Logged In successfully', 'Information');
                   this.router.navigate(['/home']);
                 }

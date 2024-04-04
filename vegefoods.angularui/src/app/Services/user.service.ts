@@ -10,5 +10,7 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   registerUser = (registeredData: User) => this.httpClient.post<User>(`${this.baseUrl}/Users/register`, registeredData);
-  Login = (loginData: User) => this.httpClient.post<User>(`${this.baseUrl}/Users/login`, loginData);
+  login = (loginData: User) => {
+    return this.httpClient.post<User>(`${this.baseUrl}/Users/login`, loginData);
+  }
 }

@@ -30,9 +30,10 @@
                 <div class="navbar-nav mx-auto">
                     <a [routerLink]="['/']" class="nav-item nav-link">Home</a>
                     <a [routerLink]="['/shop']" class="nav-item nav-link">Shop</a>
-                    <a [routerLink]="['/login']" class="nav-item nav-link">Login</a>
-                    <a [routerLink]="['/register']" class="nav-item nav-link">Register</a>
-                    <a [routerLink]="['/profile']" class="nav-item nav-link">Profile</a>
+                    <a *ngIf="authService.isLoggedIn$ | async" [routerLink]="['/profile']" class="nav-item nav-link">Profile</a>          
+                    <a *ngIf="!(authService.isLoggedIn$ | async)" [routerLink]="['/login']" class="nav-item nav-link">Login</a>
+                    <a *ngIf="!(authService.isLoggedIn$ | async)" [routerLink]="['/register']" class="nav-item nav-link">Register</a>                   
+                    <a (click)="logout()" *ngIf="authService.isLoggedIn$ | async" [routerLink]="['/']" class="nav-item nav-link">Log Off</a>              
                     <a [routerLink]="['/about']" class="nav-item nav-link">About</a>
                 </div>
                 <div class="d-flex m-3 me-0">

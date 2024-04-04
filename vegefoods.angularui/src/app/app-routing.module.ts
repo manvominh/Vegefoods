@@ -6,6 +6,9 @@ import { LoginComponent } from './Pages/users/login/login.component';
 import { RegisterComponent } from './Pages/users/register/register.component';
 import { ProfileComponent } from './Pages/users/profile/profile.component';
 import { AboutComponent } from './Pages/about/about.component';
+import { GlobalErrorComponent } from './Pages/global-error/global-error.component';
+import { PageNotFoundComponent } from './Pages/page-not-found/page-not-found.component';
+import { canActivateGuard } from './guards/auth-guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -13,8 +16,13 @@ const routes: Routes = [
   { path: 'shop', component: ProductsComponent  },
   { path: 'login', component: LoginComponent  },
   { path: 'register', component: RegisterComponent  },
-  { path: 'profile', component: ProfileComponent  },
+  { path: 'profile', component: ProfileComponent, canActivate: [canActivateGuard],  },
   { path: 'about', component: AboutComponent  },
+  { path: 'error', component: GlobalErrorComponent},
+  {
+    path: '**',
+    component: PageNotFoundComponent 
+       }
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './Services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'vegefoods.angularui';
+  title = 'vegefoods angular front-end';
+  //constructor(public authService: AuthService ) {}
 }
