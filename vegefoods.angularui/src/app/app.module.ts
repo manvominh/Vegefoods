@@ -21,7 +21,7 @@ import { UserService } from './Services/user.service';
 import { LoadingComponent } from './Pages/partials/loading/loading.component';
 import { ProductService } from './Services/product.service';
 import { AuthService } from './Services/auth.service';
-import { AuthInterceptorService } from './Services/auth-interceptor.service';
+import { AuthInterceptorService } from './Interceptor/auth-interceptor.service';
 import { PageNotFoundComponent } from './Pages/page-not-found/page-not-found.component';
 import { GlobalErrorComponent } from './Pages/global-error/global-error.component';
 import { GlobalErrorHandlerService } from './Services/global-error-handler.service';
