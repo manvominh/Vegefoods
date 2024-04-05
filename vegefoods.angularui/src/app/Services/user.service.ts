@@ -13,4 +13,6 @@ export class UserService {
   login = (loginData: User) => {
     return this.httpClient.post<User>(`${this.baseUrl}/Users/login`, loginData);
   }
+  getUserByEmail = (email: string) => this.httpClient.get<User>(`${this.baseUrl}/Users/GetUserByEmail/${email}`);
+  updateUser = (updateData: User, userId: number) => this.httpClient.put<User>(`${this.baseUrl}/Users/${userId}`, updateData);
 }

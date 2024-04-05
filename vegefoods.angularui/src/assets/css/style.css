@@ -495,3 +495,7 @@
 }
 /*** Footer End ***/
 
+/** custom **/
+.page-padding-top {
+    margin-top: 150px;
+}
