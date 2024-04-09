@@ -8,6 +8,7 @@ using System.Threading;
 using Vegefoods.Application.Common.Exceptions;
 using Vegefoods.Application.Dtos;
 using Vegefoods.Application.Features.ProductFeatures;
+using Vegefoods.Application.Features.UserFeatures.Command.ChangePassword;
 using Vegefoods.Application.Features.UserFeatures.Command.RegisterUser;
 using Vegefoods.Application.Features.UserFeatures.Command.UpdateUser;
 using Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmail;
@@ -53,16 +54,23 @@ namespace Vegefoods.API.Controllers
 		}
 		[Authorize]
 		[HttpPut("{id}")]
-		public async Task<ActionResult> UpdateProfile(int id, UserDto user, CancellationToken cancellationToken)
+		public async Task<ActionResult> UpdateProfile(int id, UserProfileDto userProfile, CancellationToken cancellationToken)
 		{
-			if (user.Id != id)
+			if (userProfile.Id != id)
 				throw new BadRequestException($"Invalid Id: {id}");
 
-			var response = await _mediator.Send(new UpdateUserQuery(user), cancellationToken);
+			var response = await _mediator.Send(new UpdateUserQuery(userProfile), cancellationToken);
 			if(response.isUpdated)
 				return Ok(response);
 
 			throw new BadRequestException("Updated user failed.");
+		}
+		//[Authorize]
+		[HttpPost("ChangePassword")]
+		public async Task<ActionResult> ChangePassword([FromBody] PasswordDto passwordDto, CancellationToken cancellationToken)
+		{
+			var response = await _mediator.Send(new ChangePasswordQuery(passwordDto), cancellationToken);
+			return Ok(response);
 		}
 	}
 }
