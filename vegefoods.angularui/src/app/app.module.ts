@@ -25,6 +25,8 @@ import { AuthInterceptorService } from './Interceptor/auth-interceptor.service';
 import { PageNotFoundComponent } from './Pages/page-not-found/page-not-found.component';
 import { GlobalErrorComponent } from './Pages/global-error/global-error.component';
 import { GlobalErrorHandlerService } from './Services/global-error-handler.service';
+import { ChangepasswordComponent } from './Pages/partials/changepassword/changepassword.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { GlobalErrorHandlerService } from './Services/global-error-handler.servi
     AboutComponent,
     LoadingComponent,
     PageNotFoundComponent,
-    GlobalErrorComponent
+    GlobalErrorComponent,
+    ChangepasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { GlobalErrorHandlerService } from './Services/global-error-handler.servi
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
+    MatDialogModule,
     AppRoutingModule
   ],
   providers: [
