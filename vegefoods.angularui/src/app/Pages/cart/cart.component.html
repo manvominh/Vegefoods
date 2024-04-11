@@ -38,14 +38,14 @@
                                 </td>
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">                                        
-                                        <input (change)="changeQuantity($event, cartproduct.price)" value="{{cartproduct.qty}}" type="text" class="form-control form-control-sm text-center border-0" min="1" max="100">                                       
+                                        <input (change)="changeQuantity($event, cartproduct)" value="{{cartproduct.qty}}" type="text" class="form-control form-control-sm text-center border-0" min="1" max="100">                                       
                                     </div>
                                 </td>
                                 <td>
                                     <p class="mb-0 mt-4">{{cartproduct.price*cartproduct.qty}} $</p>
                                 </td>
                                 <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4" >
+                                    <button (click)="removeProduct(cartproduct)" class="btn btn-md rounded-circle bg-light border mt-4" >
                                         <i class="fa fa-times text-danger"></i>
                                     </button>
                                 </td>
@@ -65,9 +65,9 @@
                     <div class="bg-light rounded">                    
                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                             <h5 class="mb-0 ps-4 me-4">Total</h5>
-                            <p class="mb-0 pe-4">{{totalAmount}}</p>
+                            <p class="mb-0 pe-4">{{calculateTotalAmount()}}</p>
                         </div>
-                        <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                        <button (click)="processCheckout()" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
                     </div>
                 </div>
             </div>

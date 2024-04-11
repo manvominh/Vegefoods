@@ -15,12 +15,12 @@ export class NavbarComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-
-    this.cartService.cartUpdates$.subscribe(()=>{
-      this.count= this.cartService.count;
-    });
+  ngOnInit() {    
   }
+
+  getNumberItemsOfCart(): number{
+    return this.cartService.getNumberItemsOfCart();
+  };
 
   public logout() {
     //console.log('logoff');

@@ -65,7 +65,7 @@ namespace Vegefoods.API.Controllers
 
 			throw new BadRequestException("Updated user failed.");
 		}
-		//[Authorize]
+		[Authorize]
 		[HttpPost("ChangePassword")]
 		public async Task<ActionResult> ChangePassword([FromBody] PasswordDto passwordDto, CancellationToken cancellationToken)
 		{

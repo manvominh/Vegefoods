@@ -30,11 +30,7 @@ export class ProductsComponent implements OnInit {
     }
 
     addToCart(product: Product) {
-      this.cartService.addToCart(product);
-      //window.alert('Your product has been added to the cart!');
-    }
-
-    getItemCount(id:number){
-      return this.cartService.getItemCount(id);
-    }
+      this.cartService.addToCart(product);      
+      this.toastr.success('Added To Cart successfully', 'Information');
+    }    
 }
