@@ -1,16 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../Services/auth.service';
+import { CartService } from '../../../Services/cart.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+  count:number = 0;
   constructor(public authService: AuthService,
+    private cartService:CartService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+
+    this.cartService.cartUpdates$.subscribe(()=>{
+      this.count= this.cartService.count;
+    });
+  }
 
   public logout() {
     //console.log('logoff');

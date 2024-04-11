@@ -1,3 +1,4 @@
+import { CartService } from '../../Services/cart.service';
 import { ProductService } from './../../Services/product.service';
 import { Product } from './product';
 import { Component, OnInit } from '@angular/core';
@@ -13,6 +14,7 @@ export class ProductsComponent implements OnInit {
   isLoading: boolean = false;
 
   constructor(private productService: ProductService,
+    private cartService: CartService,
     private toastr: ToastrService) { }
 
     ngOnInit(): void{
@@ -25,5 +27,14 @@ export class ProductsComponent implements OnInit {
         this.products = data;
         this.isLoading = false;
       });    
+    }
+
+    addToCart(product: Product) {
+      this.cartService.addToCart(product);
+      //window.alert('Your product has been added to the cart!');
+    }
+
+    getItemCount(id:number){
+      return this.cartService.getItemCount(id);
     }
 }

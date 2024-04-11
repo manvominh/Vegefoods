@@ -27,6 +27,7 @@ import { GlobalErrorComponent } from './Pages/global-error/global-error.componen
 import { GlobalErrorHandlerService } from './Services/global-error-handler.service';
 import { ChangepasswordComponent } from './Pages/partials/changepassword/changepassword.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CartComponent } from './Pages/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     LoadingComponent,
     PageNotFoundComponent,
     GlobalErrorComponent,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
