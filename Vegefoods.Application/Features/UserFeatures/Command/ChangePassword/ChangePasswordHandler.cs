@@ -24,7 +24,7 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.ChangePassword
 		public async Task<bool> Handle(ChangePasswordQuery query, CancellationToken cancellationToken)
 		{
 			bool result = false;
-			var existedUser = await _unitOfWork.Repository<User>().Entities.Where(x => x.Id == query.PasswordDto.Id).FirstAsync(cancellationToken);
+			var existedUser = await _unitOfWork.Repository<User>().Entities.Where(x => x.Id == query.PasswordDto.Id).FirstOrDefaultAsync(cancellationToken);
 			if (existedUser != null)
 			{
 				if(HashHelper.HashPassword(query.PasswordDto.CurrentPassword) != existedUser.Password)

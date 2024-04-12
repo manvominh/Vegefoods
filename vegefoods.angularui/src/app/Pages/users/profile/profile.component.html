@@ -12,7 +12,7 @@
                 <div class="col-md-12 col-lg-6 col-xl-7">
                     <div class="form-item">
                         <label class="form-label my-3">Email Address<sup>*</sup></label>
-                        <input type="email" formControlName="email"  class="form-control">
+                        <input type="email" formControlName="email"  class="form-control" readonly>
                     </div>             
                     <div class="row">
                         <div class="col-md-12 col-lg-6">
@@ -69,46 +69,5 @@
 <!-- Profile Page End -->
 
 <div class="modal" id="popupChangePassword">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Change Password</h4>
-          <button type="button" class="btn-close" (click)="CloseModel()" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="container">
-                    <form [formGroup]="userPasswordForm"  (ngSubmit)="changePassword()">
-                        <input type="hidden" value="{{userId}}" className="form-control" />
-                        <div class="row g-5">
-                            <div class="col-md-12 col-lg-6 col-xl-7">
-                                <div class="form-item">
-                                    <label class="form-label my-3">Current Password<sup>*</sup></label>
-                                    <input type="password" formControlName="currentpassword" class="form-control">
-                                </div>
-                                <div class="form-item">
-                                    <label class="form-label my-3">New Password<sup>*</sup></label>
-                                    <input type="password" formControlName="newpassword" class="form-control">
-                                </div>
-                                <div class="form-item">
-                                    <label class="form-label my-3">New Password<sup>*</sup></label>
-                                    <input type="password" formControlName="confirmpassword" class="form-control">
-                                </div>
-                                        
-                                <div class="mt-4">                        
-                                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit">Save</button>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button class="btn border-secondary rounded-pill px-4 py-3 text-danger" data-bs-dismiss="modal" type="button">Cancel</button>
-                                </div>       
-                            </div>                        
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-       <!--  <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-        </div> -->
-      </div>
-    </div>
+    <app-changepassword  [userId]="userId"></app-changepassword>    
   </div>

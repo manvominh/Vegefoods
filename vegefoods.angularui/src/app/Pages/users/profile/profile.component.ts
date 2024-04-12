@@ -6,6 +6,7 @@ import { UserService } from '../../../Services/user.service';
 //import { ChangepasswordComponent } from '../../partials/changepassword/changepassword.component';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -18,7 +19,6 @@ export class ProfileComponent implements OnInit{
   userForm!: FormGroup;
   userPasswordForm!: FormGroup;
   isLoading: boolean = false;
-  loadingTitle: string = 'Loading ...';
   errors: any;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit{
       currentpassword: ['', Validators.required],
       newpassword: ['', Validators.required],       
       confirmpassword: ['', Validators.required],             
-      });
+      }); 
   }
   ngOnInit(): void {
     this.email = localStorage.getItem('email_vegefoods_angular');
@@ -67,7 +67,6 @@ export class ProfileComponent implements OnInit{
   updateUser() {
     
     this.isLoading = true;
-    //this.loadingTitle = "Update a user ....";
     //if (this.userForm.valid) { 
       console.log(this.userId);
       console.log('updating')
@@ -81,45 +80,10 @@ export class ProfileComponent implements OnInit{
         }
       });      
       
-    // }
-    // else {   console.log('tao lao')
-    //   this.isLoading = false;
-    //   this.userForm.markAllAsTouched();
-    // }
+    // }    
   }
 
   cancelUpdate(){
     this.router.navigate(['/home']);
-  }
-
-/*   openModel() {
-    const modelDiv = document.getElementById('myModal');
-    if(modelDiv!= null) {
-      modelDiv.style.display = 'block';
-    } 
-  } */
-
-  CloseModel() {
-    const modelDiv = document.getElementById('popupChangePassword');
-    if(modelDiv!= null) {
-      modelDiv.style.display = 'none';
-    } 
-  }
-  changePassword(){
-    this.isLoading = true;
-    //if (this.userForm.valid) { 
-
-      this.userService.changePassword(this.userPasswordForm.value).subscribe({
-        next: (res: any) => {
-          console.log(res.data);
-          this.isLoading = false;
-          this.CloseModel();
-          this.toastr.success('Changed password successfully', 'Information');
-        },
-        error: (err: any) => {
-          throw err;
-        }
-      });    
-    //}  
   }
 }
