@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-       email: ['', Validators.required],
+       email: ['', [ Validators.required, Validators.email, Validators.maxLength(50)]],
        password: ['', Validators.required],                 
     });
  }
@@ -27,15 +27,12 @@ export class LoginComponent implements OnInit {
   errors : any = []
 
    public Login() {
-    //console.log("login pressed");
     this.isLoading = true;
-    //this.loadingTitle = "Registering a user ....";
     if (this.loginForm.valid) { 
       
       this.authService.login(this.loginForm.value).subscribe({
               next: (res: any) => {
-                //console.log(res);
-                //console.log(this.loginForm.value.email);
+                
                 if(res.isSuccess)
                 {
                   localStorage.setItem('email_vegefoods_angular', this.loginForm.value.email);
@@ -50,10 +47,7 @@ export class LoginComponent implements OnInit {
                 this.errors = err.error.errors;
               }
       });
-      /* setTimeout(()=>{                           // <<<---using ()=> syntax
-          console.log("setting time out");
-          
-      }, 60000); */
+     
       this.isLoading = false;
     }
     else {
