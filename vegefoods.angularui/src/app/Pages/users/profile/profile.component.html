@@ -32,9 +32,15 @@
                         <div class="col-md-12 col-lg-6">
                             <div class="form-item w-100">
                                 <label class="form-label my-3">Date Of Birth<sup>*</sup></label>
-                                <input type="text" formControlName="dateOfBirth" class="form-control">
+                                <mat-form-field>
+                                    <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="formatDate($event)">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                  </mat-form-field> 
                             </div>
-                        </div>
+                        </div>                        
+                          
+
                         <div class="col-md-12 col-lg-6">
                             <div class="form-item w-100">
                                 <label class="form-label my-3">Country<sup>*</sup></label>

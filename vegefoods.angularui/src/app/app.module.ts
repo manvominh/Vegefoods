@@ -8,6 +8,11 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { ToastrModule } from 'ngx-toastr';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input'
+
 import { HomeComponent } from './Pages/home/home.component';
 import { ProductsComponent } from './Pages/products/products.component';
 import { ProductDetailsComponent } from './Pages/product-details/product-details.component';
@@ -26,7 +31,6 @@ import { PageNotFoundComponent } from './Pages/page-not-found/page-not-found.com
 import { GlobalErrorComponent } from './Pages/global-error/global-error.component';
 import { GlobalErrorHandlerService } from './Services/global-error-handler.service';
 import { ChangepasswordComponent } from './Pages/partials/changepassword/changepassword.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { CartComponent } from './Pages/cart/cart.component';
 
 @NgModule({
@@ -54,7 +58,7 @@ import { CartComponent } from './Pages/cart/cart.component';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    MatDialogModule,
+    MatInputModule, MatFormFieldModule, MatNativeDateModule, MatDatepickerModule,
     AppRoutingModule
   ],
   providers: [
