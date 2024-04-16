@@ -73,6 +73,14 @@ const Profile = () => {
         return isproceed;
     }
 
+    const selectDateHandler = (e) => {
+        console.log(e);
+        var dateToAdjust = new Date(e)
+        var offsetMs = dateToAdjust.getTimezoneOffset() * 60000;
+        let newDate = new Date(dateToAdjust.getTime() - offsetMs);
+        setDateOfBirth(newDate)
+      }
+
     const handlesubmit = (e) => {
         e.preventDefault();
         let profileUser = { 
@@ -139,7 +147,7 @@ const Profile = () => {
                         <div className="form-group row text-right">
                             <label htmlFor="dateOfBirth" className="col-sm-4 col-form-label">Date Of Birth</label>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <DatePicker id="dateOfBirth" showIcon selected={dateofbirth || ""} onChange={(date) => setDateOfBirth(date)} />
+                            <DatePicker id="dateOfBirth" showIcon selected={dateofbirth || ""} onChange={selectDateHandler} />
                             
                         </div>
                         <div className="form-group row text-right">
