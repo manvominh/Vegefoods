@@ -1,11 +1,7 @@
-<!-- Single Page Header start -->
-<div class="container-fluid page-header py-5">
-    <h1 class="text-center text-white display-6">Register</h1>    
-</div>
-<!-- Single Page Header End -->
 
 <!-- Register Page Start -->
-<div class="container-fluid">
+<div class="container-fluid page-padding-top">
+    <h1 class="ms-5 ps-5 text-secondary">Register</h1>  
     <div class="container">
          <div *ngIf="isLoading; else elseForm"> // need to search empty tag html
             <app-loading></app-loading>
@@ -21,6 +17,14 @@
                                 class="text-danger">
                                 Email is required.
                             </div>
+                            <div *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched"
+                                class="text-danger">
+                                Email is invalid format.
+                            </div>
+                            <div *ngIf="registerForm.get('email')?.hasError('maxlength') && registerForm.get('email')?.touched"
+                                class="text-danger">
+                                Email must be lesser than 50 characters.
+                            </div>
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Password<sup>*</sup></label>
@@ -28,10 +32,21 @@
                             <div *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched"
                                 class="text-danger">
                                 Password is required.
+                            </div>                            
+                        </div>    
+                        <div class="form-item">
+                            <label class="form-label my-3">Confirm Password<sup>*</sup></label>
+                            <input type="password" formControlName="confirmpassword" class="form-control">
+                            <div class="text-danger" *ngIf="registerForm.get('confirmpassword')?.hasError('confirmedValidator')">
+                                Confirm Password doesn't match with Password
+                              </div>
+                            <div *ngIf="registerForm.get('confirmpassword')?.hasError('required') && registerForm.get('password')?.touched"
+                                class="text-danger">
+                                Confirm Password is required.
                             </div>
-                        </div>             
+                        </div>           
                         <div class="mt-4">                        
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit">Register</button>
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit" [disabled]="registerForm.invalid">Register</button>
                             &nbsp;&nbsp;&nbsp;
                             <button class="btn border-secondary rounded-pill px-4 py-3 text-danger" type="button">Close</button>
                         </div>       

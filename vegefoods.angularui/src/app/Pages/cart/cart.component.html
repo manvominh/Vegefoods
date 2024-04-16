@@ -1,0 +1,77 @@
+<!-- Cart Page Start -->
+
+<div class="container-fluid py-5 page-padding-top">    
+    <div class="container py-5" *ngIf="this.cartproducts.length <= 0; else elseHasCartItem">
+        <h1 class="text-start text-secondary">There is no product in cart.</h1>
+    </div>
+    <ng-template #elseHasCartItem>    
+        <div class="container py-5">
+            <h1 class="col-lg-4 text-start text-secondary">Cart Products</h1>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Products</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <div *ngIf="isLoading; else elseTableBlock">
+                            <app-loading></app-loading>
+                        </div>
+                        <ng-template #elseTableBlock>
+                            <tr *ngFor="let cartproduct of this.cartproducts">
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{cartproduct.imageURL}}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    </div>
+                                </th>
+                                <td>
+                                    <p class="mb-0 mt-4">{{cartproduct.name}}</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">{{cartproduct.price}} $</p>
+                                </td>
+                                <td>
+                                    <div class="input-group quantity mt-4" style="width: 100px;">                                        
+                                        <input (change)="changeQuantity($event, cartproduct)" value="{{cartproduct.qty}}" type="text" class="form-control form-control-sm text-center border-0" min="1" max="100">                                       
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">{{cartproduct.price*cartproduct.qty}} $</p>
+                                </td>
+                                <td>
+                                    <button (click)="removeProduct(cartproduct)" class="btn btn-md rounded-circle bg-light border mt-4" >
+                                        <i class="fa fa-times text-danger"></i>
+                                    </button>
+                                </td>
+                            
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div class="mt-5">
+                <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
+                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>
+            </div> -->
+            <div class="row g-4 justify-content-end">
+                <div class="col-8"></div>
+                <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+                    <div class="bg-light rounded">                    
+                        <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+                            <h5 class="mb-0 ps-4 me-4">Total</h5>
+                            <p class="mb-0 pe-4">{{calculateTotalAmount()}}</p>
+                        </div>
+                        <button (click)="processCheckout()" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+<!-- Cart Page End -->

@@ -1,11 +1,6 @@
-<!-- Single Page Header start -->
-<div class="container-fluid page-header py-5">
-    <h1 class="text-center text-white display-6">Login</h1>    
-</div>
-<!-- Single Page Header End -->
-
 <!-- Login Page Start -->
-<div class="container-fluid">
+<div class="container-fluid page-padding-top">
+    <h1 class="ms-5 ps-5 text-secondary">Login</h1>    
     <div class="container">
         <div *ngIf="isLoading; else elseForm"> // need to search empty tag html
             <app-loading></app-loading>
@@ -21,6 +16,14 @@
                                 class="text-danger">
                                 Email is required.
                             </div>
+                            <div *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched"
+                                class="text-danger">
+                                Email is invalid format.
+                            </div>
+                            <div *ngIf="loginForm.get('email')?.hasError('maxlength') && loginForm.get('email')?.touched"
+                                class="text-danger">
+                                Email must be lesser than 50 characters.
+                            </div>
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Password<sup>*</sup></label>
@@ -31,7 +34,7 @@
                             </div>
                         </div>             
                         <div class="mt-4">                        
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit">Login</button>
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit" [disabled]="loginForm.invalid">Login</button>
                             &nbsp;&nbsp;&nbsp;
                             <button class="btn border-secondary rounded-pill px-4 py-3 text-danger" type="button">Close</button>
                         </div>       

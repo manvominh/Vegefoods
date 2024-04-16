@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { User } from '../Pages/users/user';
+import { UserPassword } from '../Pages/users/userpassword';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,5 +11,10 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   registerUser = (registeredData: User) => this.httpClient.post<User>(`${this.baseUrl}/Users/register`, registeredData);
-  Login = (loginData: User) => this.httpClient.post<User>(`${this.baseUrl}/Users/login`, loginData);
+  login = (loginData: User) => {
+    return this.httpClient.post<User>(`${this.baseUrl}/Users/login`, loginData);
+  }
+  getUserByEmail = (email: string) => this.httpClient.get<User>(`${this.baseUrl}/Users/GetUserByEmail/${email}`);
+  updateUser = (updateData: User, userId: number) => this.httpClient.put<User>(`${this.baseUrl}/Users/${userId}`, updateData);
+  changePassword = (updateData: UserPassword) => this.httpClient.post<UserPassword>(`${this.baseUrl}/Users/ChangePassword`, updateData);
 }
