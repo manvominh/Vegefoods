@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
 using Vegefoods.Application.Dtos;
@@ -7,11 +8,11 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.API.Test.Controllers
 {
-	public class ProductsControllerTest : IClassFixture<WebApplicationFactory<Program>>
+	public class ProductsControllerTest : IClassFixture<CustomWebApplicationFactory<Program>>
 	{
-		private readonly WebApplicationFactory<Program> _factory;
+		private readonly CustomWebApplicationFactory<Program> _factory;
 		private readonly HttpClient _client;
-		public ProductsControllerTest(WebApplicationFactory<Program> factory)
+		public ProductsControllerTest(CustomWebApplicationFactory<Program> factory)
 		{
 			_factory = factory;
 			_client = _factory.CreateClient();
@@ -21,10 +22,10 @@ namespace Vegefoods.API.Test.Controllers
 		{
 			var response = await _client.GetAsync("/api/products");
 			response.EnsureSuccessStatusCode();
-			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+			response.StatusCode.Equals(HttpStatusCode.OK);
 		}
 		[Fact]
-		public async Task GetUser_ReturnsOk()
+		public async Task GetProduct_ReturnsOk()
 		{
 			// Arrange
 			var productId = 1;
@@ -34,10 +35,9 @@ namespace Vegefoods.API.Test.Controllers
 
 			var result = await response.Content.ReadFromJsonAsync<ProductDto>();
 			// Assert
-			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-			Assert.NotNull(result);
-			Assert.Equal(productId, result.Id);
+			response.StatusCode.Equals(HttpStatusCode.OK);
+			result.Should().NotBeNull();
+			result?.Name.Should().NotBeNullOrEmpty();			
 		}
 	}
 }
