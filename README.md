@@ -1,6 +1,6 @@
 # Vegefoods
 This is demo web application using ASP.Net Core Web API, Entity Framework, Microsoft SQL Server, Memory Cache, MediatR + CQRS pattern and Clean Architecture in backend 
-FrontEnd is used ReactJS + Angular for implement UI.
+FrontEnd is used both ReactJS and Angular for implement UI.
 ## Web API
 - build and run Vegefoods solution by Visual Studio or other IDE.
 ![image](https://github.com/manvominh/Vegefoods/assets/133474782/a1a96859-afbd-41c2-93f3-18e5cba4811a)
