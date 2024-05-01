@@ -43,8 +43,8 @@ namespace Vegefoods.API.Controllers
 		public async Task<ActionResult> Login([FromBody] UserDtoLogIn loginUser, CancellationToken cancellationToken)
 		{
 			var response = await _mediator.Send(new GetUserByEmailAndPasswordQuery(loginUser), cancellationToken);
-			if (!response.IsSuccess)
-				throw new BadRequestException($"User Credential is invalid.");
+			//if (!response.IsSuccess)
+			//	throw new BadRequestException($"User Credential is invalid.");
 
 			return Ok(response);
 		}
