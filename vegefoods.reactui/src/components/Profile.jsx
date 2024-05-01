@@ -30,19 +30,23 @@ const Profile = () => {
             .then(response => {
                 // Handle the response
                 //console.log(response.data);
-                if (response.status === 200) {
-                    setId(response.data.id);
-                    setEmail(response.data.email);                    
-                    setFirstName(response.data.firstName);
-                    setLastName(response.data.lastName);
-                    setPhone(response.data.phone);
-                    setCountry(response.data.country);
-                    setAddress(response.data.address);
-                    setGender(response.data.gender);
-                    setDateOfBirth(response.data.dateOfBirth);
+                if (response.data.isSuccess) {
+                    setId(response.data.userDto.id);
+                    setEmail(response.data.userDto.email);                    
+                    setFirstName(response.data.userDto.firstName);
+                    setLastName(response.data.userDto.lastName);
+                    setPhone(response.data.userDto.phone);
+                    setCountry(response.data.userDto.country);
+                    setAddress(response.data.userDto.address);
+                    setGender(response.data.userDto.gender);
+                    setDateOfBirth(response.data.userDto.dateOfBirth);
                 }
                 else
-                    throw new Error(response.status);
+                {
+                    toast.error(response.data.message);
+                    //throw new Error(response.status);
+                }
+                    
             })
             .catch(error => {
                 // Handle errors
@@ -118,11 +122,11 @@ const Profile = () => {
                    
                     <form onSubmit={handlesubmit}>
                     
-                        <input type="hidden" value={id} className="form-control"></input> 
+                        <input type="hidden" value={id | 0} className="form-control"></input> 
                         <div className="form-group row text-right">
                             <label htmlFor="email" className="col-sm-4 col-form-label">Email</label>
                             <div className="col-sm-8">
-                            <input type="text" readOnly id="email" className="form-control-plaintext"  value={email} />
+                            <input type="text" readOnly id="email" className="form-control-plaintext"  value={email || ''} />
                             </div>
                         </div>
                         <div className="form-group row text-right">

@@ -56,11 +56,13 @@ const Register = () => {
             //console.log(regobj);
             apihelper.post("/users/register", regobj)
             .then((res) => {
-                console.log(res);
-                if (res.status === 200) {
+                //console.log(res);
+                if (res.data.isSuccess) {
                     toast.success('Registered successfully.')
                     navigate('/login');
                 }
+                else
+                    toast.warn(res.data.message);
             }).catch((err) => {
                 toast.error('Failed :' + err.message);
             });

@@ -25,12 +25,13 @@ const ChangePasswordDialog = (props) => {
         if (IsValidate()) {
             apihelper.post("/users/ChangePassword", changedPassword) 
             .then(response => {
-                console.log(response)
-                if(response.data){
+                //console.log(response)
+                if(response.data.isSuccess){
                     toast.success('Changed Password successfully.')
                     setShow(!show);
                 }
-                    
+                else
+                  toast.warn(response.data.message);
             })
             .catch(error => {                
                 toast.error('There was an error!', error);
@@ -58,6 +59,10 @@ const ChangePasswordDialog = (props) => {
             errormessage += ' Confirm Password: not match Password';
         } 
         
+        if(!isproceed){
+            toast.warning(errormessage)
+        }
+
         return isproceed;
     }  
   return (
