@@ -8,8 +8,8 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.ProductFeatures
 {
-	public record GetProductQuery(int Id) : IRequest<ProductDto>;
-	internal class GetProductQueryHandler : IRequestHandler<GetProductQuery, ProductDto>
+	public record GetProductQuery(int Id) : IRequest<ProductDetailsDto>;
+	internal class GetProductQueryHandler : IRequestHandler<GetProductQuery, ProductDetailsDto>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -20,12 +20,16 @@ namespace Vegefoods.Application.Features.ProductFeatures
 			_mapper = mapper;
 		}
 
-		public async Task<ProductDto> Handle(GetProductQuery request, CancellationToken cancellationToken)
+		public async Task<ProductDetailsDto> Handle(GetProductQuery request, CancellationToken cancellationToken)
 		{
-			return await _unitOfWork.Repository<Product>().Entities
+			var product = await _unitOfWork.Repository<Product>().Entities
 						.ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-						.Where(x => x.Id == request.Id)
-						.FirstAsync(cancellationToken);
+						.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+			if (product == null)
+				return new ProductDetailsDto() { IsSuccess = false, Message = "Product is not existed.", ProductDto = new ProductDto() };
+
+			return new ProductDetailsDto() { IsSuccess = true, Message = "Get Product successfully.", ProductDto = product };
 		}
 	}
 }

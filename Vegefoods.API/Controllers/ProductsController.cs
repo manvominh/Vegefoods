@@ -22,9 +22,11 @@ namespace Vegefoods.API.Controllers
 			return Ok(await _mediator.Send(new GetAllProductsQuery()));
 		}
 		[HttpGet("{id:int}")]
-		public async Task<ActionResult> GetProduct(int id)
+		public async Task<IActionResult> GetProduct(int id)
 		{
-			return Ok(await _mediator.Send(new GetProductQuery(id)));
+			var response = await _mediator.Send(new GetProductQuery(id));
+
+			return Ok(response);
 		}
 		
 	}

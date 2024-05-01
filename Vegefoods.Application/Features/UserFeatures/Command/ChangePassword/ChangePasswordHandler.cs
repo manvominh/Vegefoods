@@ -9,8 +9,8 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Command.ChangePassword
 {
-	public record ChangePasswordQuery(PasswordDto PasswordDto) : IRequest<bool>;
-	public class ChangePasswordHandler : IRequestHandler<ChangePasswordQuery, bool>
+	public record ChangePasswordQuery(PasswordDto PasswordDto) : IRequest<ReturnModel>;
+	public class ChangePasswordHandler : IRequestHandler<ChangePasswordQuery, ReturnModel>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -21,14 +21,14 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.ChangePassword
 			_mapper = mapper;
 		}
 
-		public async Task<bool> Handle(ChangePasswordQuery query, CancellationToken cancellationToken)
+		public async Task<ReturnModel> Handle(ChangePasswordQuery query, CancellationToken cancellationToken)
 		{
 			bool result = false;
-			var existedUser = await _unitOfWork.Repository<User>().Entities.Where(x => x.Id == query.PasswordDto.Id).FirstOrDefaultAsync(cancellationToken);
+			var existedUser = await _unitOfWork.Repository<User>().Entities.FirstOrDefaultAsync(x => x.Id == query.PasswordDto.Id, cancellationToken);
 			if (existedUser != null)
 			{
 				if(HashHelper.HashPassword(query.PasswordDto.CurrentPassword) != existedUser.Password)
-					return result;
+					return new ReturnModel() { IsSuccess = false, Message = "Current Password is invalid." }; 
 
 				var user = new User()
 				{
@@ -49,7 +49,7 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.ChangePassword
 				result = true;
 			}
 			
-			return result;
+			return new ReturnModel() { IsSuccess = true, Message = "Change Password is successfully." }; ;
 			
 		}
 	}

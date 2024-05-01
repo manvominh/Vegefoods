@@ -5,15 +5,15 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Dtos
 {
-	public class UserRequestDto : IMapFrom<User>
+	public class UserDtoLogIn : IMapFrom<User>
 	{
-
 		[Required(ErrorMessage = "Email can not be empty")]
 		[EmailAddress(ErrorMessage = "Please enter a valid email")]
 		[MaxLength(50)]
 		public string Email { get; set; }
 		[Required(ErrorMessage = "Password can not be empty")]
-		[MaxLength(50)]
+		[MinLength(8, ErrorMessage = "Password should be between 8 and 50 characters.")]
+		[MaxLength(50, ErrorMessage = "Password should be between 8 and 50 characters.")]
 		public string Password { get; set; }
 	}
 }

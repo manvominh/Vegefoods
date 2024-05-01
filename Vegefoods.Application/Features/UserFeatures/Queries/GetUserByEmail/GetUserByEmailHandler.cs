@@ -1,17 +1,15 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vegefoods.Application.Dtos;
-using Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmailAndPassword;
 using Vegefoods.Application.Interfaces;
 using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmail
 {
-	public record GetUserByEmailQuery(string Email) : IRequest<UserDto>;
-	public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, UserDto>
+	public record GetUserByEmailQuery(string Email) : IRequest<UserDtoResponse>;
+	public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, UserDtoResponse>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -22,11 +20,14 @@ namespace Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmail
 			_mapper = mapper;
 		}
 
-		public async Task<UserDto> Handle(GetUserByEmailQuery query, CancellationToken cancellationToken)
+		public async Task<UserDtoResponse> Handle(GetUserByEmailQuery query, CancellationToken cancellationToken)
 		{
-			var user = await _unitOfWork.Repository<User>().Entities.FirstOrDefaultAsync(x => x.Email == query.Email);
+			var user = await _unitOfWork.Repository<User>().Entities
+				.FirstOrDefaultAsync(x => x.Email == query.Email, cancellationToken);
+			if (user == null)
+				return new UserDtoResponse() { IsSuccess = false, Message = $"Get User By Email is not existed: {query.Email}", UserDto = new UserDto() };
 
-			return _mapper.Map<UserDto>(user);
+			return new UserDtoResponse() { IsSuccess = true, Message = $"Get User By Email is successfully.", UserDto = _mapper.Map<UserDto>(user) };
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Vegefoods.Application.Common.Helpers;
 using Vegefoods.Application.Dtos;
 using Vegefoods.Application.Interfaces;
@@ -7,8 +8,8 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Command.RegisterUser
 {
-	public record RegisterUserQuery(UserRequestDto RegisterUser) : IRequest<UserRequestDto>;
-	public class RegisterUserHandler : IRequestHandler<RegisterUserQuery, UserRequestDto>
+	public record RegisterUserQuery(UserDtoRegistration RegisterUser) : IRequest<ReturnModel>;
+	public class RegisterUserHandler : IRequestHandler<RegisterUserQuery, ReturnModel>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -19,9 +20,12 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.RegisterUser
 			_mapper = mapper;
 		}
 
-		public async Task<UserRequestDto> Handle(RegisterUserQuery query, CancellationToken cancellationToken)
+		public async Task<ReturnModel> Handle(RegisterUserQuery query, CancellationToken cancellationToken)
 		{
-			//var user = _mapper.Map<User>(query.RegisterUser);
+			var isExistedUser = await _unitOfWork.Repository<User>().Entities.FirstOrDefaultAsync(x => x.Email == query.RegisterUser.Email, cancellationToken);
+			if(isExistedUser != null)
+				return new ReturnModel() { IsSuccess = false, Message = "User is existed." };
+
 			var user = new User()
 			{
 				Email = query.RegisterUser.Email,
@@ -30,7 +34,7 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.RegisterUser
 			await _unitOfWork.Repository<User>().AddAsync(user);
 			await _unitOfWork.Save(cancellationToken);
 
-			return _mapper.Map<UserRequestDto>(user);
+			return new ReturnModel() { IsSuccess = true, Message = "User registed successfully." };
 		}
 	}
 }

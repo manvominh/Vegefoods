@@ -4,7 +4,7 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Dtos
 {
-	public class UserProfileDto : IMapFrom<User>
+	public class UserDtoProfile : IMapFrom<User>
 	{
 		public int Id { get; set; }
 		public string? FirstName { get; set; }

@@ -33,11 +33,28 @@ namespace Vegefoods.API.Test.Controllers
 			var response = await _client.GetAsync($"/api/products/{productId}");
 			response.EnsureSuccessStatusCode();
 
-			var result = await response.Content.ReadFromJsonAsync<ProductDto>();
+			var result = await response.Content.ReadFromJsonAsync<ProductDetailsDto>();
 			// Assert
 			response.StatusCode.Equals(HttpStatusCode.OK);
 			result.Should().NotBeNull();
-			result?.Name.Should().NotBeNullOrEmpty();			
+			result?.IsSuccess.Should().BeTrue();
+			result?.ProductDto.Should().NotBeNull();
+		}
+
+		[Fact]
+		public async Task GetProduct_ReturnsFailed()
+		{
+			// Arrange
+			var productId = 9999999;
+			// Act
+			var response = await _client.GetAsync($"/api/products/{productId}");
+			response.EnsureSuccessStatusCode();
+
+			var result = await response.Content.ReadFromJsonAsync<ProductDetailsDto>();
+			// Assert
+			response.StatusCode.Equals(HttpStatusCode.OK);
+			result.Should().NotBeNull();
+			result?.IsSuccess.Should().BeFalse();
 		}
 	}
 }

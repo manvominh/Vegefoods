@@ -9,7 +9,7 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmailAndPassword
 {
-	public record GetUserByEmailAndPasswordQuery(UserRequestDto LoginUser) : IRequest<Tokens>;
+	public record GetUserByEmailAndPasswordQuery(UserDtoLogIn LoginUser) : IRequest<Tokens>;
 	public class GetUserByEmailAndPasswordHandler : IRequestHandler<GetUserByEmailAndPasswordQuery, Tokens>
 	{
 		private readonly IUnitOfWork _unitOfWork;
@@ -25,7 +25,7 @@ namespace Vegefoods.Application.Features.UserFeatures.Queries.GetUserByEmailAndP
 
 		public async Task<Tokens> Handle(GetUserByEmailAndPasswordQuery query, CancellationToken cancellationToken)
 		{
-			var user = await _unitOfWork.Repository<User>().Entities.FirstOrDefaultAsync(x => x.Email == query.LoginUser.Email && x.Password == HashHelper.HashPassword(query.LoginUser.Password));
+			var user = await _unitOfWork.Repository<User>().Entities.FirstOrDefaultAsync(x => x.Email == query.LoginUser.Email && x.Password == HashHelper.HashPassword(query.LoginUser.Password), cancellationToken);
 
 			return user == null ? await Task.FromResult(new Tokens { Token = null, IsSuccess = false }) 
 				: await _jwtAuthenticationManagerService.GenerateJwtToken(user.Email);

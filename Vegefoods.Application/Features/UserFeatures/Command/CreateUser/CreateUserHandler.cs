@@ -1,16 +1,14 @@
 ﻿
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Vegefoods.Application.Dtos;
 using Vegefoods.Application.Interfaces;
 using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Command.CreateUser
 {
-	public record CreateUserQuery(UserDto User) : IRequest<UserDto>;
-	public class CreateUserHandler : IRequestHandler<CreateUserQuery, UserDto>
+	public record CreateUserQuery(UserDto User) : IRequest<(bool isCreated, UserDto userDto)>;
+	public class CreateUserHandler : IRequestHandler<CreateUserQuery, (bool isCreated, UserDto userDto)>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -21,13 +19,13 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.CreateUser
 			_mapper = mapper;
 		}
 
-		public async Task<UserDto> Handle(CreateUserQuery query, CancellationToken cancellationToken)
+		public async Task<(bool isCreated, UserDto userDto)> Handle(CreateUserQuery query, CancellationToken cancellationToken)
 		{
 			var user = _mapper.Map<User>(query);
 			await _unitOfWork.Repository<User>().AddAsync(user);
 			await _unitOfWork.Save(cancellationToken);
 
-			return _mapper.Map<UserDto>(user);
+			return (true, _mapper.Map<UserDto>(user));
 		}
 	}
 }

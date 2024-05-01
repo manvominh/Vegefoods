@@ -16,11 +16,12 @@ namespace Vegefoods.API.Test
 		{ 
 			return new List<User>()
 			{
-				new User() { Id = 1, Email="tester@test.com", Password = HashHelper.HashPassword("123")},
-				new User() { Id = 2, Email="test01@test.com", Password = HashHelper.HashPassword("123")},
-				new User() { Id = 3, Email="testlogin@test.com", Password = HashHelper.HashPassword("123")},
+				new User() { Id = 1, Email="tester@test.com", Password = HashHelper.HashPassword("password123")},
+				new User() { Id = 2, Email="test01@test.com", Password = HashHelper.HashPassword("password123")},
+				new User() { Id = 3, Email="testlogin@test.com", Password = HashHelper.HashPassword("password123")},
+				new User() { Id = 4, Email="test04@test.com", Password = HashHelper.HashPassword("password123")},
+				new User() { Id = 5, Email="test05@test.com", Password = HashHelper.HashPassword("password123")},
 			}; 
 		}
-		
 	}
 }

@@ -8,8 +8,8 @@ using Vegefoods.Domain.Entities;
 
 namespace Vegefoods.Application.Features.UserFeatures.Command.UpdateUser
 {
-	public record UpdateUserQuery(UserProfileDto UserProfileDto) : IRequest<(bool isUpdated, UserProfileDto userDto)>;
-	public class UpdateUserHandler : IRequestHandler<UpdateUserQuery, (bool isUpdated, UserProfileDto userDto)>
+	public record UpdateUserQuery(UserDtoProfile UserProfileDto) : IRequest<ReturnModel>;
+	public class UpdateUserHandler : IRequestHandler<UpdateUserQuery, ReturnModel>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -20,10 +20,13 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.UpdateUser
 			_mapper = mapper;
 		}
 
-		public async Task<(bool isUpdated, UserProfileDto userDto)> Handle(UpdateUserQuery query, CancellationToken cancellationToken)
+		public async Task<ReturnModel> Handle(UpdateUserQuery query, CancellationToken cancellationToken)
 		{
 			//var user = _mapper.Map<User>(query.UserProfileDto);
-			var existedUser = await _unitOfWork.Repository<User>().Entities.Where(x => x.Id == query.UserProfileDto.Id).FirstAsync(cancellationToken);
+			var existedUser = await _unitOfWork.Repository<User>().Entities.FirstOrDefaultAsync(x => x.Id == query.UserProfileDto.Id, cancellationToken);
+			if (existedUser == null)
+				return new ReturnModel() { IsSuccess = false, Message = "User is not existed." };
+
 			var user = new User()
 			{
 				Id = query.UserProfileDto.Id,
@@ -40,7 +43,7 @@ namespace Vegefoods.Application.Features.UserFeatures.Command.UpdateUser
 			await _unitOfWork.Repository<User>().UpdateAsync(user);
 			await _unitOfWork.Save(cancellationToken);
 
-			return (true, _mapper.Map<UserProfileDto>(user));
+			return new ReturnModel() { IsSuccess = true, Message = "User updated successfully." };
 		}
 	}
 }

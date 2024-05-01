@@ -31,40 +31,44 @@ namespace Vegefoods.API.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("register")]
-		public async Task<ActionResult> Register([FromBody] UserRequestDto registerUser, CancellationToken cancellationToken)
+		public async Task<ActionResult> Register([FromBody] UserDtoRegistration registerUser, CancellationToken cancellationToken)
 		{
 			var response = await _mediator.Send(new RegisterUserQuery(registerUser), cancellationToken);
+			
 			return Ok(response);
 		}
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("login")]
-		public async Task<ActionResult> Login([FromBody] UserRequestDto loginUser, CancellationToken cancellationToken)
+		public async Task<ActionResult> Login([FromBody] UserDtoLogIn loginUser, CancellationToken cancellationToken)
 		{
 			var response = await _mediator.Send(new GetUserByEmailAndPasswordQuery(loginUser), cancellationToken);
-			
+			if (!response.IsSuccess)
+				throw new BadRequestException($"User Credential is invalid.");
+
 			return Ok(response);
 		}
-		[Authorize]
+		//[Authorize]
 		[HttpGet("GetUserByEmail/{email}")]
 		public async Task<ActionResult> GetUserByEmail(string email, CancellationToken cancellationToken)
 		{
-			return Ok(await _mediator.Send(new GetUserByEmailQuery(email), cancellationToken));
+			var response = await _mediator.Send(new GetUserByEmailQuery(email), cancellationToken);
+			return Ok(response);
 		}
-		[Authorize]
+		//[Authorize]
 		[HttpPut("{id}")]
-		public async Task<ActionResult> UpdateProfile(int id, UserProfileDto userProfile, CancellationToken cancellationToken)
+		public async Task<ActionResult> UpdateProfile(int id, UserDtoProfile userProfile, CancellationToken cancellationToken)
 		{
 			if (userProfile.Id != id)
 				throw new BadRequestException($"Invalid Id: {id}");
 
 			var response = await _mediator.Send(new UpdateUserQuery(userProfile), cancellationToken);
-			if(response.isUpdated)
+			if(response.IsSuccess)
 				return Ok(response);
 
 			throw new BadRequestException("Updated user failed.");
 		}
-		[Authorize]
+		//[Authorize]
 		[HttpPost("ChangePassword")]
 		public async Task<ActionResult> ChangePassword([FromBody] PasswordDto passwordDto, CancellationToken cancellationToken)
 		{

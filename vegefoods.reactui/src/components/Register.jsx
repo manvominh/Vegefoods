@@ -6,6 +6,7 @@ import apihelper from '../helpers/apihelper';
 const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmpassword, setConfirmPassword] = useState("");
 
     const navigate = useNavigate();
 
@@ -21,7 +22,14 @@ const Register = () => {
             isproceed = false;
             errormessage += ' Password';
         }
-        
+        if (confirmpassword === null || confirmpassword === '') {
+            isproceed = false;
+            errormessage += ' Confirm Password';
+        }
+        if (password !== confirmpassword) {
+            isproceed = false;
+            errormessage += ' Confirm Password: not match Password';
+        }
 
         if(!isproceed){
             toast.warning(errormessage)
@@ -30,19 +38,25 @@ const Register = () => {
 
             }else{
                 isproceed = false;
-                toast.warning('Please enter the valid email')
+                toast.warning('Please enter the valid email');
             }
+            if(password.length < 8)    
+            {
+                isproceed = false;
+                toast.warning('Password is not long enough. Password must be greater than 7 characters.')
+            }        
         }
         return isproceed;
     }
 
     const handlesubmit = (e) => {
         e.preventDefault();
-        let regobj = { email, password };
+        let regobj = { email, password, confirmpassword };
         if (IsValidate()) {
             //console.log(regobj);
             apihelper.post("/users/register", regobj)
             .then((res) => {
+                console.log(res);
                 if (res.status === 200) {
                     toast.success('Registered successfully.')
                     navigate('/login');
@@ -68,6 +82,10 @@ const Register = () => {
                             <div className="form-group text-left ">
                                 <label>Password <span className="errmsg">*</span></label>
                                 <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="form-control"></input>
+                            </div>
+                            <div className="form-group text-left ">
+                                <label>Confirm Password <span className="errmsg">*</span></label>
+                                <input value={confirmpassword} onChange={e => setConfirmPassword(e.target.value)} type="password" className="form-control"></input>
                             </div>
                         </div>
                         <div className="card-footer">

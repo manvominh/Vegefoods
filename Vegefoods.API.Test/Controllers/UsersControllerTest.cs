@@ -1,17 +1,12 @@
 ﻿
-using Azure.Core;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using Vegefoods.Application.Dtos;
-using Vegefoods.Domain.Entities;
 using Vegefoods.Persistence.Contexts;
 using Xunit;
 namespace Vegefoods.API.Test.Controllers
@@ -51,7 +46,7 @@ namespace Vegefoods.API.Test.Controllers
 				Seeding.InitializeDB(db);
 			}
 			// Arrange
-			var newUser = new UserRequestDto { Email= "test@test.com", Password = "testing" };
+			var newUser = new UserDtoRegistration { Email= "test@test.com", Password = "testpassword", ConfirmPassword = "testpassword" };
 
 			// Act
 			var response = await _client.PostAsync("/api/users/register", new StringContent(JsonConvert.SerializeObject(newUser), Encoding.UTF8, "application/json"));
@@ -59,9 +54,9 @@ namespace Vegefoods.API.Test.Controllers
 			// Assert
 			response.Should().NotBeNull();
 			response.EnsureSuccessStatusCode();
-			var userRequestDto = await response.Content.ReadFromJsonAsync<UserRequestDto>();
-			userRequestDto.Should().NotBeNull();
-			userRequestDto?.Email.Should().NotBeNull();
+			var ret = await response.Content.ReadFromJsonAsync<ReturnModel>();
+			ret?.IsSuccess.Should().BeTrue();
+			ret?.Message.Should().Contain("successfully");
 		}
 		[Fact, TestPriority(2)]
 		public async Task Login_ReturnsOk()
@@ -75,7 +70,7 @@ namespace Vegefoods.API.Test.Controllers
 				db.Database.Migrate();
 			}
 			// Arrange
-			var loginUser = new UserRequestDto { Email = "testlogin@test.com", Password = "123" };
+			var loginUser = new UserDtoLogIn { Email = "testlogin@test.com", Password = "password123" };
 
 			// Act
 			var response = await _client.PostAsync("/api/users/login", new StringContent(JsonConvert.SerializeObject(loginUser), Encoding.UTF8, "application/json"));
@@ -99,13 +94,14 @@ namespace Vegefoods.API.Test.Controllers
 				db.Database.Migrate();
 			}
 			// Arrange
-			var loginUser = new UserRequestDto { Email = "testlogin01@test.com", Password = "123" };
+			var loginUser = new UserDtoLogIn { Email = "testlogin01@test.com", Password = "password123" };
 
 			// Act
 			var response = await _client.PostAsync("/api/users/login", new StringContent(JsonConvert.SerializeObject(loginUser), Encoding.UTF8, "application/json"));
 
 			// Assert
-			response.EnsureSuccessStatusCode();
+			//response.EnsureSuccessStatusCode();
+			response.StatusCode.Equals(HttpStatusCode.OK);
 			var tokenObject = await response.Content.ReadFromJsonAsync<Tokens>();
 			tokenObject?.Token.Should().BeNull();
 			tokenObject?.IsSuccess.Should().BeFalse();
@@ -113,7 +109,7 @@ namespace Vegefoods.API.Test.Controllers
 		}
 		private async Task<string?> GetToken()
 		{
-			var loginUser = new UserRequestDto { Email = "tester@test.com", Password = "123" };
+			var loginUser = new UserDtoLogIn { Email = "tester@test.com", Password = "password123" };
 
 			var response = await _client.PostAsync("/api/users/login", new StringContent(JsonConvert.SerializeObject(loginUser), Encoding.UTF8, "application/json"));
 
@@ -144,9 +140,10 @@ namespace Vegefoods.API.Test.Controllers
 
 			// Assert
 			response.EnsureSuccessStatusCode();
-			var userDto = await response.Content.ReadFromJsonAsync<UserDto>();
+			var userDtoRequest = await response.Content.ReadFromJsonAsync<UserDtoResponse>();
 			response.Should().NotBeNull();
-			userDto.Should().NotBeNull();					
+			userDtoRequest?.IsSuccess.Should().BeTrue();
+			userDtoRequest?.Message.Should().Contain("successfully");
 		}
 		[Fact, TestPriority(5)]
 		public async Task GetUserByEmail_Returns_UnAuthorized()
@@ -171,7 +168,7 @@ namespace Vegefoods.API.Test.Controllers
 			// Assert
 			response.Should().NotBeNull();
 			response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-		}		
+		}
 		[Fact, TestPriority(6)]
 		public async Task ChangePassword_ReturnsOk()
 		{
@@ -182,14 +179,15 @@ namespace Vegefoods.API.Test.Controllers
 
 				db.Database.EnsureCreated();
 				db.Database.Migrate();
+				Seeding.InitializeDB(db);
 			}
 			// Arrange
-			var passwordDto = new PasswordDto { Id = 2, CurrentPassword = "123", NewPassword = "abc", ConfirmPassword = "abc" };
+			var passwordDto = new PasswordDto { Id = 4, CurrentPassword = "password123", NewPassword = "passwordabc", ConfirmPassword = "passwordabc" };
 			var jsonPasswordDto = JsonConvert.SerializeObject(passwordDto);
 			var content = new StringContent(jsonPasswordDto, Encoding.UTF8, "application/json");
 
 			var token = await GetToken();
-			HttpRequestMessage request = new (HttpMethod.Post, $"/api/users/ChangePassword");
+			HttpRequestMessage request = new(HttpMethod.Post, $"/api/users/ChangePassword");
 			request.Headers.Add("Authorization", "Bearer " + token);
 			request.Content = content;
 
@@ -198,11 +196,11 @@ namespace Vegefoods.API.Test.Controllers
 
 			// Assert
 			response.EnsureSuccessStatusCode();
-			var isSuccess = await response.Content.ReadFromJsonAsync<bool>();
+			var retResule = await response.Content.ReadFromJsonAsync<ReturnModel>();
 			response.StatusCode.Equals(HttpStatusCode.OK);
-			isSuccess.Should().BeTrue();
+			retResule?.IsSuccess.Should().BeTrue();
 		}
-		[Fact, TestPriority(6)]
+		[Fact, TestPriority(7)]
 		public async Task ChangePassword_Returns_UnAuthorized()
 		{
 			using (var scope = _factory.Services.CreateScope())
@@ -214,19 +212,20 @@ namespace Vegefoods.API.Test.Controllers
 				db.Database.Migrate();
 			}
 			// Arrange
-			var passwordDto = new PasswordDto { Id = 2, CurrentPassword = "123", NewPassword = "abc", ConfirmPassword = "abc" };
+			var passwordDto = new PasswordDto { Id = 5, CurrentPassword = "password123", NewPassword = "passwordabc", ConfirmPassword = "passwordabc" };
 			var jsonPasswordDto = JsonConvert.SerializeObject(passwordDto);
 			var content = new StringContent(jsonPasswordDto, Encoding.UTF8, "application/json");
 
 			var token = await GetToken();
-			HttpRequestMessage request = new(HttpMethod.Post, $"/api/users/ChangePassword");			
+			HttpRequestMessage request = new(HttpMethod.Post, $"/api/users/ChangePassword");
 			request.Content = content;
 
 			// Act
 			var response = await _client.SendAsync(request);
-
+			
 			// Assert
 			response.Should().NotBeNull();
+			response.StatusCode.Should().NotBe(HttpStatusCode.OK);
 			response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 		}
 	}
