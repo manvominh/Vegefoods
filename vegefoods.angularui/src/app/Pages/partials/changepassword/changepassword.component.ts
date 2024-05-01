@@ -23,9 +23,9 @@ export class ChangepasswordComponent {
 
     this.userChangePasswordForm = this.formBuilder.group({
       id: ['', Validators.required],
-      currentpassword: ['', Validators.required],
-      newpassword: ['', Validators.required],       
-      confirmpassword: ['', Validators.required],             
+      currentpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+      newpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],       
+      confirmpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],             
       }, {
         validators: [this.ConfirmedValidator('newpassword', 'confirmpassword'),
           this.ChangedPasswordValidator('currentpassword', 'newpassword')]
@@ -72,7 +72,7 @@ export class ChangepasswordComponent {
     
     const modelDiv = document.getElementById('popupChangePassword');    
     if(modelDiv!= null) {
-      console.log('closed');
+      //console.log('closed');
       modelDiv.style.display = 'none';
       $('#popupChangePassword').trigger('click');
     } 
@@ -83,13 +83,14 @@ export class ChangepasswordComponent {
     if (this.userChangePasswordForm.valid) {               
       this.userService.changePassword(this.userChangePasswordForm.value).subscribe({
         next: (res: any) => {
-          console.log(res);
-          if(res){
-            this.isLoading = false;           
-            this.toastr.success('Changed password successfully', 'Information');
+          //console.log(res);
+          this.isLoading = false;   
+          if(res.isSuccess){                    
+            this.toastr.success(res.message, 'Information');
             this.CloseModel();            
           }         
-          
+          else
+            this.toastr.warning(res.message, 'Information');
         },
         error: (err: any) => {
           throw err;

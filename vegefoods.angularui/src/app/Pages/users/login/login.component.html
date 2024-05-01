@@ -32,6 +32,14 @@
                                 class="text-danger">
                                 Password is required.
                             </div>
+                            <div *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched"
+                                class="text-danger">
+                                Password must be greater than 8 characters.
+                            </div>
+                            <div *ngIf="loginForm.get('password')?.hasError('maxlength') && loginForm.get('password')?.touched"
+                                class="text-danger">
+                                Email must be lesser than 50 characters.
+                            </div>
                         </div>             
                         <div class="mt-4">                        
                             <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit" [disabled]="loginForm.invalid">Login</button>

@@ -46,9 +46,15 @@ export class ProfileComponent implements OnInit{
 
     this.userService.getUserByEmail(this.email).subscribe(
       (res: any) => {
-      this.user = res;
-      this.userId = res.id;
-      this.userForm.patchValue(this.user);
+        //console.log(res);
+        if(res.isSuccess)
+        {
+          this.user = res.userDto;
+          this.userId = res.userDto.id;
+          this.userForm.patchValue(this.user);
+        }
+        else
+          this.toastr.warning(res.message, 'Information');
       }
     );
   }
@@ -57,8 +63,8 @@ export class ProfileComponent implements OnInit{
     
     this.isLoading = true;
     //if (this.userForm.valid) { 
-      console.log(this.userId);
-      console.log('updating')
+      //console.log(this.userId);
+      //console.log('updating')
        this.userService.updateUser(this.userForm.value, this.userId).subscribe({
         next: (res: any) => {
           this.isLoading = false;
